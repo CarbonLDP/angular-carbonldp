@@ -1,6 +1,6 @@
 {
   "name": "angular2-carbonldp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helping classes to use Angular2 with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
@@ -10,13 +10,16 @@
     "type": "git",
     "url": "https://github.com/CarbonLDP/angular2-carbonldp.git"
   },
-  "main": "index.js",
+  "main": "dist/boot.js",
+  "directories": {
+    "lib": "dist"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "angular2": "^2.0.0-beta.12",
-    "carbonldp": "^0.18.1-ALPHA",
+    "carbonldp": "^0.20.0-ALPHA",
     "es6-shim": "^0.35.0",
     "js-cookie": "^2.1.0",
     "reflect-metadata": "^0.1.2",
