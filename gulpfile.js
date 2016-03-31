@@ -20,7 +20,6 @@ const tslint = require( "gulp-tslint" );
 let config = {
 	source: {
 		typescript: [
-			"typings/typings.d.ts",
 			"src/**/*.ts",
 			"!src/**/*.spec.ts",
 		]
