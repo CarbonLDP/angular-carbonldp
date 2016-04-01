@@ -1,6 +1,6 @@
 {
   "name": "angular2-carbonldp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Helping classes to use Angular2 with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
@@ -13,6 +13,11 @@
   "main": "dist/boot.js",
   "directories": {
     "lib": "dist"
+  },
+  "jspm": {
+    "directories": {
+      "lib": "dist"
+    }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
