@@ -1,3 +1,9 @@
+## 0.1.4 (2016/04/01)
+- Added `authChanged$` to `AuthService`
+
+## 0.1.3 (2016/04/01)
+- Added `loggedInEmitter` and `loggedOutEmitter` to `AuthService`
+
 ## 0.1.2 (2016/04/01)
 - Added JSPM dist directory
 

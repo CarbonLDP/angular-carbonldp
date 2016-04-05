@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "angular2/core";
+import { Injectable, Inject, EventEmitter } from "angular2/core";
 
 import * as Cookies from "js-cookie";
 
@@ -11,10 +11,23 @@ import * as AuthService from "./AuthService";
 
 @Injectable()
 export class AuthServiceImpl implements AuthService.Class {
+	private _loggedInEmitter:EventEmitter<any>;
+	private _loggedOutEmitter:EventEmitter<any>;
+	private _authChangedEmitter:EventEmitter<any>;
 	private context:Context;
+
+	get loggedInEmitter():EventEmitter<any> { return this._loggedInEmitter };
+	get loggedOutEmitter():EventEmitter<any> { return this._loggedOutEmitter };
+	get authChangedEmitter():EventEmitter<any> { return this._authChangedEmitter };
 
 	constructor( @Inject( ContextToken ) context:Context ) {
 		this.context = context;
+		this._loggedInEmitter = new EventEmitter<any>();
+		this._loggedOutEmitter = new EventEmitter<any>();
+		this._authChangedEmitter = new EventEmitter<any>();
+
+		this.loggedInEmitter.subscribe( ( value:any ) => this.authChangedEmitter.emit( value ) );
+		this.loggedOutEmitter.subscribe( ( value:any ) => this.authChangedEmitter.emit( value ) );
 	}
 
 	isAuthenticated():boolean {
@@ -24,12 +37,14 @@ export class AuthServiceImpl implements AuthService.Class {
 	login( username:string, password:string, rememberMe:boolean ):Promise<any> {
 		return this.context.auth.authenticate( username, password ).then( ( credentials:Credentials ) => {
 			if( rememberMe ) Cookies.set( AUTH_COOKIE, credentials );
+			this.loggedInEmitter.emit( null );
 			return credentials;
 		});
 	}
 
 	logout():void {
 		Cookies.remove( AUTH_COOKIE );
-		return this.context.auth.clearAuthentication();
+		this.context.auth.clearAuthentication();
+		this.loggedOutEmitter.emit( null );
 	}
 }

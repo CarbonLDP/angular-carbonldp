@@ -116,7 +116,7 @@ export const CARBON_PROVIDERS:Provider[] = [
 	provide( App.Context, {
 		useFactory: ():App.Context => {
 			if( ! activeContextFn.isAppContext() ) throw new Errors.IllegalStateError( "The activeContext is not an App Context" );
-			return activeContextFn();
+			return <any>activeContextFn();
 		},
 	} ),
 ];

@@ -25,8 +25,11 @@ declare module 'angular2-carbonldp/decorators/AbstractSecurityAnnotation' {
 
 }
 declare module 'angular2-carbonldp/services/AuthService' {
-	import { OpaqueToken } from "angular2/core";
+	import { OpaqueToken, EventEmitter } from "angular2/core";
 	export interface Class {
+	    loggedInEmitter: EventEmitter<any>;
+	    loggedOutEmitter: EventEmitter<any>;
+	    authChangedEmitter: EventEmitter<any>;
 	    isAuthenticated(): boolean;
 	    login(username: string, password: string, rememberMe: boolean): Promise<any>;
 	    logout(): void;
@@ -35,10 +38,17 @@ declare module 'angular2-carbonldp/services/AuthService' {
 
 }
 declare module 'angular2-carbonldp/services/AuthServiceImpl' {
+	import { EventEmitter } from "angular2/core";
 	import Context from "carbonldp/Context";
 	import * as AuthService from 'angular2-carbonldp/services/AuthService';
 	export class AuthServiceImpl implements AuthService.Class {
+	    private _loggedInEmitter;
+	    private _loggedOutEmitter;
+	    private _authChangedEmitter;
 	    private context;
+	    loggedInEmitter: EventEmitter<any>;
+	    loggedOutEmitter: EventEmitter<any>;
+	    authChangedEmitter: EventEmitter<any>;
 	    constructor(context: Context);
 	    isAuthenticated(): boolean;
 	    login(username: string, password: string, rememberMe: boolean): Promise<any>;

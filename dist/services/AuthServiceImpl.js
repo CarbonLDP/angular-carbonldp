@@ -16,21 +16,48 @@ var Cookies = require("js-cookie");
 var boot_1 = require("./../boot");
 var AuthServiceImpl = (function () {
     function AuthServiceImpl(context) {
+        var _this = this;
         this.context = context;
+        this._loggedInEmitter = new core_1.EventEmitter();
+        this._loggedOutEmitter = new core_1.EventEmitter();
+        this._authChangedEmitter = new core_1.EventEmitter();
+        this.loggedInEmitter.subscribe(function (value) { return _this.authChangedEmitter.emit(value); });
+        this.loggedOutEmitter.subscribe(function (value) { return _this.authChangedEmitter.emit(value); });
     }
+    Object.defineProperty(AuthServiceImpl.prototype, "loggedInEmitter", {
+        get: function () { return this._loggedInEmitter; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(AuthServiceImpl.prototype, "loggedOutEmitter", {
+        get: function () { return this._loggedOutEmitter; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    Object.defineProperty(AuthServiceImpl.prototype, "authChangedEmitter", {
+        get: function () { return this._authChangedEmitter; },
+        enumerable: true,
+        configurable: true
+    });
+    ;
     AuthServiceImpl.prototype.isAuthenticated = function () {
         return this.context.auth.isAuthenticated();
     };
     AuthServiceImpl.prototype.login = function (username, password, rememberMe) {
+        var _this = this;
         return this.context.auth.authenticate(username, password).then(function (credentials) {
             if (rememberMe)
                 Cookies.set(boot_1.AUTH_COOKIE, credentials);
+            _this.loggedInEmitter.emit(null);
             return credentials;
         });
     };
     AuthServiceImpl.prototype.logout = function () {
         Cookies.remove(boot_1.AUTH_COOKIE);
-        return this.context.auth.clearAuthentication();
+        this.context.auth.clearAuthentication();
+        this.loggedOutEmitter.emit(null);
     };
     AuthServiceImpl = __decorate([
         core_1.Injectable(),
