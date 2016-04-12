@@ -44,7 +44,12 @@ function authenticateWithCookie( context:Context ):Promise<any> {
 	} catch( error ) {
 		return Promise.reject( error );
 	}
-	return context.auth.authenticateUsing( "TOKEN", token );
+	return context.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {
+		if( error instanceof Errors.IllegalArgumentError ) {
+			// Invalid token
+			Cookies.remove( AUTH_COOKIE );
+		} else return Promise.reject( error );
+	});
 }
 
 export interface ActiveContextFn {

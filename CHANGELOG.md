@@ -1,3 +1,6 @@
+## 0.1.8 (2016/04/12)
+- Changed the authentication to handle invalid tokens instead of throwing an error
+
 ## 0.1.4 (2016/04/01)
 - Added `authChanged$` to `AuthService`
 
