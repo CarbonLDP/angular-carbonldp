@@ -1,6 +1,6 @@
 {
   "name": "angular2-carbonldp",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Helping classes to use Angular2 with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
@@ -21,7 +21,6 @@
     }
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
