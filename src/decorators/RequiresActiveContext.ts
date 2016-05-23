@@ -1,4 +1,4 @@
-import {Router, ComponentInstruction} from "angular2/router";
+import {Router, ComponentInstruction} from "@angular/router-deprecated";
 
 import {inject, activeContext} from "./../boot";
 import {AbstractSecurityAnnotation} from "./AbstractSecurityAnnotation";

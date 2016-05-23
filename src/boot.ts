@@ -1,4 +1,4 @@
-import {provide, Provider, Injector, OpaqueToken} from "angular2/core";
+import {provide, Provider, Injector, OpaqueToken} from "@angular/core";
 
 import * as Cookies from "js-cookie";
 

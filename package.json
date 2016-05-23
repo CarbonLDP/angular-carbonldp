@@ -24,9 +24,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "angular2": "^2.0.0-beta.13",
-    "carbonldp": "*",
-    "js-cookie": "^2.1.0"
+    "js-cookie": "^2.1.1"
   },
   "devDependencies": {
     "del": "^2.2.0",
@@ -35,10 +33,15 @@
     "gulp": "^3.9.1",
     "gulp-json-editor": "^2.2.1",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^4.3.4",
-    "gulp-typescript": "^2.12.1",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.4",
     "gulp-util": "^3.0.7",
     "minimatch": "^3.0.0",
-    "tslint": "^3.6.0"
+    "tslint": "^3.10.2"
+  },
+  "peerDependencies": {
+    "carbonldp": "^0.33.0",
+    "@angular/core": "^2.0.0-rc.1",
+    "@angular/router-deprecated": "^2.0.0-rc.1"
   }
 }

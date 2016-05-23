@@ -1,5 +1,5 @@
 declare module 'angular2-carbonldp/boot' {
-	import { Provider, Injector, OpaqueToken } from "angular2/core";
+	import { Provider, Injector, OpaqueToken } from "@angular/core";
 	import Carbon from "carbonldp/Carbon";
 	import Context from "carbonldp/Context";
 	export const AUTH_COOKIE: string; const appInjectorFn: (injector?: Injector) => Injector;
@@ -17,7 +17,7 @@ declare module 'angular2-carbonldp/boot' {
 
 }
 declare module 'angular2-carbonldp/decorators/AbstractSecurityAnnotation' {
-	import { ComponentInstruction } from "angular2/router";
+	import { ComponentInstruction } from "@angular/router-deprecated";
 	export abstract class AbstractSecurityAnnotation {
 	    private _evaluate;
 	    evaluate: (next: ComponentInstruction, previous: ComponentInstruction) => Promise<boolean> | boolean;
@@ -25,7 +25,7 @@ declare module 'angular2-carbonldp/decorators/AbstractSecurityAnnotation' {
 
 }
 declare module 'angular2-carbonldp/services/AuthService' {
-	import { OpaqueToken, EventEmitter } from "angular2/core";
+	import { OpaqueToken, EventEmitter } from "@angular/core";
 	export interface Class {
 	    loggedInEmitter: EventEmitter<any>;
 	    loggedOutEmitter: EventEmitter<any>;
@@ -38,7 +38,7 @@ declare module 'angular2-carbonldp/services/AuthService' {
 
 }
 declare module 'angular2-carbonldp/services/AuthServiceImpl' {
-	import { EventEmitter } from "angular2/core";
+	import { EventEmitter } from "@angular/core";
 	import Context from "carbonldp/Context";
 	import * as AuthService from 'angular2-carbonldp/services/AuthService';
 	export class AuthServiceImpl implements AuthService.Class {
@@ -57,7 +57,7 @@ declare module 'angular2-carbonldp/services/AuthServiceImpl' {
 
 }
 declare module 'angular2-carbonldp/services' {
-	import { Provider } from "angular2/core";
+	import { Provider } from "@angular/core";
 	import * as AuthService from 'angular2-carbonldp/services/AuthService';
 	export const CARBON_SERVICES_PROVIDERS: Provider[];
 	export { AuthService };

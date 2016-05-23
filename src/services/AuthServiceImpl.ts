@@ -1,4 +1,4 @@
-import { Injectable, Inject, EventEmitter } from "angular2/core";
+import { Injectable, Inject, EventEmitter } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 

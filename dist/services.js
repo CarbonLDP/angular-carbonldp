@@ -1,5 +1,5 @@
 "use strict";
-var core_1 = require("angular2/core");
+var core_1 = require("@angular/core");
 var AuthService = require("./services/AuthService");
 exports.AuthService = AuthService;
 var AuthServiceImpl_1 = require("./services/AuthServiceImpl");

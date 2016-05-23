@@ -1,6 +1,6 @@
-import {CanActivate} from "angular2/src/router/lifecycle/lifecycle_annotations_impl";
-import {TypeDecorator, Class} from "angular2/src/core/util/decorators";
-import {ComponentInstruction} from "angular2/router";
+import {CanActivate} from "@angular/router-deprecated/src/lifecycle/lifecycle_annotations_impl";
+import {TypeDecorator, Class} from "@angular/core/src/util/decorators";
+import {ComponentInstruction} from "@angular/router-deprecated";
 
 import {AbstractSecurityAnnotation} from "./AbstractSecurityAnnotation";
 

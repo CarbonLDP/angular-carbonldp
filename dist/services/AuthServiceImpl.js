@@ -11,8 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require("angular2/core");
+var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
+var Context_1 = require("carbonldp/Context");
 var boot_1 = require("./../boot");
 var AuthServiceImpl = (function () {
     function AuthServiceImpl(context) {
@@ -62,9 +63,10 @@ var AuthServiceImpl = (function () {
     AuthServiceImpl = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(boot_1.ContextToken)), 
-        __metadata('design:paramtypes', [Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object])
     ], AuthServiceImpl);
     return AuthServiceImpl;
+    var _a;
 }());
 exports.AuthServiceImpl = AuthServiceImpl;
 

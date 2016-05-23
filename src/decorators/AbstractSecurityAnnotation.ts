@@ -1,4 +1,4 @@
-import {ComponentInstruction} from "angular2/router";
+import {ComponentInstruction} from "@angular/router-deprecated";
 
 import {activeContext} from "./../boot";
 

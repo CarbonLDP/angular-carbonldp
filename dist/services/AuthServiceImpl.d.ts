@@ -1,4 +1,4 @@
-import { EventEmitter } from "angular2/core";
+import { EventEmitter } from "@angular/core";
 import Context from "carbonldp/Context";
 import * as AuthService from "./AuthService";
 export declare class AuthServiceImpl implements AuthService.Class {

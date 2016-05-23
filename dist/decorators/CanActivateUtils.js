@@ -4,8 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var lifecycle_annotations_impl_1 = require("angular2/src/router/lifecycle/lifecycle_annotations_impl");
-var decorators_1 = require("angular2/src/core/util/decorators");
+var lifecycle_annotations_impl_1 = require("@angular/router-deprecated/src/lifecycle/lifecycle_annotations_impl");
+var decorators_1 = require("@angular/core/src/util/decorators");
 var ChainableCanActivateDecorator = (function (_super) {
     __extends(ChainableCanActivateDecorator, _super);
     function ChainableCanActivateDecorator() {
