@@ -64,7 +64,7 @@ gulp.task( "bundle-definitions:bundling", [ "bundle-definitions:tsconfig-creatio
 	dts.default({
 		name: packageJSON.name,
 		project: "src/",
-		out: "dist/bundles/angular2-carbonldp.d.ts"
+		out: "dist/index.d.ts"
 	}).then( () => {
 		done();
 	});

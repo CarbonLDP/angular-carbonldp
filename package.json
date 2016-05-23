@@ -11,6 +11,7 @@
     "url": "https://github.com/CarbonLDP/angular2-carbonldp.git"
   },
   "main": "dist/boot.js",
+  "typings": "dist/index.d.ts",
   "directories": {
     "lib": "dist"
   },
@@ -42,6 +43,7 @@
   "peerDependencies": {
     "carbonldp": "^0.33.0",
     "@angular/core": "^2.0.0-rc.1",
+    "@angular/common": "^2.0.0-rc.1",
     "@angular/router-deprecated": "^2.0.0-rc.1"
   }
 }
