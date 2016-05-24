@@ -1,4 +1,4 @@
-import {provide, Provider} from "angular2/core";
+import {provide, Provider} from "@angular/core";
 
 import * as AuthService from "./services/AuthService";
 import { AuthServiceImpl } from "./services/AuthServiceImpl";

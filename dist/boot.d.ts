@@ -1,4 +1,4 @@
-import { Provider, Injector, OpaqueToken } from "angular2/core";
+import { Provider, Injector, OpaqueToken } from "@angular/core";
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
 export declare const AUTH_COOKIE: string;

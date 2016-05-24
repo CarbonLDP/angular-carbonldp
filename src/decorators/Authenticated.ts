@@ -1,4 +1,4 @@
-import {Router, ComponentInstruction} from "angular2/router";
+import {Router, ComponentInstruction} from "@angular/router-deprecated";
 
 import {inject} from "./../boot";
 import {AuthService} from "./../services";

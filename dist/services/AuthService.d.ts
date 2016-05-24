@@ -1,4 +1,4 @@
-import { OpaqueToken, EventEmitter } from "angular2/core";
+import { OpaqueToken, EventEmitter } from "@angular/core";
 export interface Class {
     loggedInEmitter: EventEmitter<any>;
     loggedOutEmitter: EventEmitter<any>;

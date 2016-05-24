@@ -6,6 +6,7 @@ const packageJSON = require( "./package.json" );
 
 const gulp = require( "gulp" );
 const util = require( "gulp-util" );
+const runSequence = require( "run-sequence" );
 
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
@@ -64,7 +65,7 @@ gulp.task( "bundle-definitions:bundling", [ "bundle-definitions:tsconfig-creatio
 	dts.default({
 		name: packageJSON.name,
 		project: "src/",
-		out: "dist/bundles/angular2-carbonldp.d.ts"
+		out: "dist/index.d.ts"
 	}).then( () => {
 		done();
 	});
@@ -98,6 +99,18 @@ gulp.task( "clean:dist", ( done ) => {
 
 gulp.task( "lint", [ "ts-lint" ] );
 
-gulp.task( "build", [ "clean:dist" ], () => { return gulp.start( "build:afterCleaning" ); });
+gulp.task( "prepare-npm-package", () => {
+	return gulp.src( [
+		"package.json",
+	    "README.md",
+	    "CHANGELOG.md",
+	] ).pipe( gulp.dest( config.dist.tsOutput ) );
+});
 
-gulp.task( "build:afterCleaning", [ "compile-library", "bundle-definitions" ] );
+gulp.task( "build", [ "clean:dist" ], ( done ) => {
+	runSequence(
+		"clean:dist",
+		[ "compile-library", "bundle-definitions", "prepare-npm-package" ],
+		done
+	);
+});

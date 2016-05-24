@@ -1,5 +1,5 @@
 "use strict";
-var core_1 = require("angular2/core");
+var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
 var Carbon_1 = require("carbonldp/Carbon");
 var App = require("carbonldp/App");
@@ -35,7 +35,14 @@ function authenticateWithCookie(context) {
     catch (error) {
         return Promise.reject(error);
     }
-    return context.auth.authenticateUsing("TOKEN", token);
+    return context.auth.authenticateUsing("TOKEN", token).catch(function (error) {
+        if (error instanceof Errors.IllegalArgumentError) {
+            // Invalid token
+            Cookies.remove(exports.AUTH_COOKIE);
+        }
+        else
+            return Promise.reject(error);
+    });
 }
 var activeContextFn = (function () {
     var _activeContext = null;
