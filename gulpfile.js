@@ -40,40 +40,6 @@ gulp.task( "ts-lint", () => {
 		;
 });
 
-gulp.task( "bundle-definitions", [ "bundle-definitions:tsconfig-creation", "bundle-definitions:bundling", "bundle-definitions:cleaning" ] );
-gulp.task( "bundle-definitions:tsconfig-creation", ( done ) => {
-	glob( "src/**", ( error, files ) => {
-		files = files.filter( ( file ) => {
-			return config.source.typescript.reduce( ( previous, current ) => previous && minimatch( file, current ), true );
-		});
-		files = files.map( ( file ) => file.replace( "src/", "" ) );
-
-		gulp.src( "./tsconfig.json" )
-			.pipe( jeditor( (json) => {
-				delete json.exclude;
-
-				json.files = files;
-
-				return json;
-			} ) )
-			.pipe( gulp.dest( "./src" ) )
-			.on( "end", done )
-		;
-	});
-});
-gulp.task( "bundle-definitions:bundling", [ "bundle-definitions:tsconfig-creation" ], ( done ) => {
-	dts.default({
-		name: packageJSON.name,
-		project: "src/",
-		out: "dist/index.d.ts"
-	}).then( () => {
-		done();
-	});
-});
-gulp.task( "bundle-definitions:cleaning", [ "bundle-definitions:bundling" ], () => {
-	return del( [ "./src/tsconfig.json" ] );
-});
-
 gulp.task( "compile-library", () => {
 	let tsProject = ts.createProject( "tsconfig.json", {
 		"declaration": true
@@ -99,18 +65,41 @@ gulp.task( "clean:dist", ( done ) => {
 
 gulp.task( "lint", [ "ts-lint" ] );
 
-gulp.task( "prepare-npm-package", () => {
+gulp.task( "prepare-npm-package", ( done ) => {
+	runSequence(
+		[ "prepare-npm-package:copy-docs", "prepare-npm-package:copy-package-json" ],
+		done
+	);
+});
+
+gulp.task( "prepare-npm-package:copy-docs", () => {
 	return gulp.src( [
-		"package.json",
-	    "README.md",
-	    "CHANGELOG.md",
+		"README.md",
+		"CHANGELOG.md",
+		"LICENSE",
 	] ).pipe( gulp.dest( config.dist.tsOutput ) );
+});
+
+gulp.task( "prepare-npm-package:copy-package-json", () => {
+	return gulp.src( "package.json" )
+		.pipe( jeditor( (json) => {
+			delete json.private;
+			delete json.scripts;
+			delete json.devDependencies;
+
+			json.main = json.main.replace( "dist/", "" );
+			json.typings = json.typings.replace( "dist/", "" );
+
+			return json;
+		} ) )
+		.pipe( gulp.dest( config.dist.tsOutput ) );
+	;
 });
 
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile-library", "bundle-definitions", "prepare-npm-package" ],
+		[ "compile-library", "prepare-npm-package" ],
 		done
 	);
 });

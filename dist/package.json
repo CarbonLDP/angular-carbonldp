@@ -10,35 +10,16 @@
     "type": "git",
     "url": "https://github.com/CarbonLDP/angular2-carbonldp.git"
   },
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "jspm": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "js-cookie": "^2.1.1"
-  },
-  "devDependencies": {
-    "del": "^2.2.0",
-    "dts-generator": "^1.7.0",
-    "glob": "^7.0.3",
-    "gulp": "^3.9.1",
-    "gulp-json-editor": "^2.2.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^5.0.0",
-    "gulp-typescript": "^2.13.4",
-    "gulp-util": "^3.0.7",
-    "minimatch": "^3.0.0",
-    "run-sequence": "^1.2.1",
-    "tslint": "^3.10.2",
-    "typings": "^1.0.4"
   },
   "peerDependencies": {
     "carbonldp": "^0.34.0",
     "@angular/core": "^2.0.0-rc.1",
     "@angular/common": "^2.0.0-rc.1",
     "@angular/router-deprecated": "^2.0.0-rc.1"
-  },
-  "private": true
+  }
 }
