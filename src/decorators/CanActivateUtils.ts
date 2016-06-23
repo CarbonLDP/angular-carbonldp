@@ -23,7 +23,7 @@ class ChainableCanActivateDecorator extends CanActivate {
 					promises.push( result );
 				}
 			}
-			return Promise.all( promises ).then( ( results:boolean[] ) => {
+			return Promise.all<boolean>( promises ).then( ( results:boolean[] ) => {
 				return results.reduce( ( previousValue, current ) => previousValue && current, true );
 			});
 		};

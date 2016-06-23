@@ -1,3 +1,7 @@
+## 0.1.11 (2016/06/23)
+- Fix minor compilation error
+- Update @angular to RC.3
+
 ## 0.1.10 (2016/05/27)
 - Restructured project so that only `dist` is published to npm
 
