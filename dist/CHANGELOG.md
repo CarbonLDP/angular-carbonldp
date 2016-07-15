@@ -1,3 +1,6 @@
+## 0.1.12 (2016/07/15)
+- Fix supported `@angular` versions in `package.json`
+
 ## 0.1.11 (2016/06/23)
 - Fix minor compilation error
 - Update @angular to RC.3
