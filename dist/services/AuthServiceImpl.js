@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
+var Context_1 = require("carbonldp/Context");
 var boot_1 = require("./../boot");
 var AuthServiceImpl = (function () {
     function AuthServiceImpl(context) {
@@ -49,7 +50,10 @@ var AuthServiceImpl = (function () {
         var _this = this;
         return this.context.auth.authenticate(username, password).then(function (credentials) {
             if (rememberMe)
-                Cookies.set(boot_1.AUTH_COOKIE, credentials);
+                Cookies.set(boot_1.AUTH_COOKIE, JSON.stringify({
+                    expirationTime: credentials.expirationTime,
+                    key: credentials.key
+                }));
             _this.loggedInEmitter.emit(null);
             return credentials;
         });
@@ -62,9 +66,10 @@ var AuthServiceImpl = (function () {
     AuthServiceImpl = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(boot_1.ContextToken)), 
-        __metadata('design:paramtypes', [Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object])
     ], AuthServiceImpl);
     return AuthServiceImpl;
+    var _a;
 }());
 exports.AuthServiceImpl = AuthServiceImpl;
 

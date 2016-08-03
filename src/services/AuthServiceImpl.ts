@@ -17,7 +17,9 @@ export class AuthServiceImpl implements AuthService.Class {
 	private context:Context;
 
 	get loggedInEmitter():EventEmitter<any> { return this._loggedInEmitter };
+
 	get loggedOutEmitter():EventEmitter<any> { return this._loggedOutEmitter };
+
 	get authChangedEmitter():EventEmitter<any> { return this._authChangedEmitter };
 
 	constructor( @Inject( ContextToken ) context:Context ) {
@@ -36,10 +38,13 @@ export class AuthServiceImpl implements AuthService.Class {
 
 	login( username:string, password:string, rememberMe:boolean ):Promise<any> {
 		return this.context.auth.authenticate( username, password ).then( ( credentials:Credentials ) => {
-			if( rememberMe ) Cookies.set( AUTH_COOKIE, credentials );
+			if( rememberMe ) Cookies.set( AUTH_COOKIE, JSON.stringify( {
+				expirationTime: credentials.expirationTime,
+				key: credentials.key
+			} ) );
 			this.loggedInEmitter.emit( null );
 			return credentials;
-		});
+		} );
 	}
 
 	logout():void {

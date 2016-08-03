@@ -4,6 +4,7 @@ var Cookies = require("js-cookie");
 var Carbon_1 = require("carbonldp/Carbon");
 var App = require("carbonldp/App");
 var Errors = require("carbonldp/Errors");
+var HTTP = require("carbonldp/HTTP");
 exports.AUTH_COOKIE = "carbon-token";
 var carbon = null;
 /**
@@ -36,7 +37,7 @@ function authenticateWithCookie(context) {
         return Promise.reject(error);
     }
     return context.auth.authenticateUsing("TOKEN", token).catch(function (error) {
-        if (error instanceof Errors.IllegalArgumentError) {
+        if (error instanceof Errors.IllegalArgumentError || error instanceof HTTP.Errors.UnauthorizedError) {
             // Invalid token
             Cookies.remove(exports.AUTH_COOKIE);
         }

@@ -1,4 +1,4 @@
-import {provide, Provider, Injector, OpaqueToken} from "@angular/core";
+import { provide, Provider, Injector, OpaqueToken } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
@@ -6,6 +6,7 @@ import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 import * as Errors from "carbonldp/Errors";
+import * as HTTP from "carbonldp/HTTP";
 import * as Token from "carbonldp/Auth/Token";
 
 export const AUTH_COOKIE:string = "carbon-token";
@@ -17,7 +18,7 @@ let carbon:Carbon = null;
  * After that, you can import the function and execute it to receive the same injector.
  * @type {function(Injector=): Injector}
  */
-const appInjectorFn:( injector?:Injector ) => Injector = ( ():( injector?:Injector ) => Injector => {
+const appInjectorFn:( injector?:Injector ) => Injector = (():( injector?:Injector ) => Injector => {
 	let appInjector:Injector;
 	return ( injector?:Injector ):Injector => {
 		if( injector ) appInjector = injector;
@@ -41,15 +42,15 @@ function authenticateWithCookie( context:Context ):Promise<any> {
 	let token:Token.Class;
 	try {
 		token = Cookies.getJSON( AUTH_COOKIE );
-	} catch( error ) {
+	} catch ( error ) {
 		return Promise.reject( error );
 	}
 	return context.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {
-		if( error instanceof Errors.IllegalArgumentError ) {
+		if( error instanceof Errors.IllegalArgumentError || error instanceof HTTP.Errors.UnauthorizedError ) {
 			// Invalid token
 			Cookies.remove( AUTH_COOKIE );
 		} else return Promise.reject( error );
-	});
+	} );
 }
 
 export interface ActiveContextFn {
@@ -59,7 +60,7 @@ export interface ActiveContextFn {
 	isAppContext?:() => boolean;
 }
 
-const activeContextFn:ActiveContextFn = ( ():ActiveContextFn => {
+const activeContextFn:ActiveContextFn = (():ActiveContextFn => {
 	let _activeContext:Context = null;
 	let _isAppContext:boolean = false;
 
@@ -80,18 +81,18 @@ const activeContextFn:ActiveContextFn = ( ():ActiveContextFn => {
 
 			contextPromise = carbon.apps.getContext( appSlug ).then( ( context:Context ) => {
 				_activeContext = context;
-			}).catch( ( error ) => {
+			} ).catch( ( error ) => {
 				console.error( "Couldn't initialize carbon's app context" );
 				console.error( error );
 				return Promise.reject( error );
-			});
+			} );
 		}
 
 		activeContextFn.promise = contextPromise.then( () => {
 			if( authenticationCookieIsPresent() ) {
 				return authenticateWithCookie( _activeContext );
 			}
-		});
+		} );
 		return activeContextFn.promise;
 	};
 	activeContextFn.isAppContext = ():boolean => {
