@@ -13,4 +13,5 @@ export declare class AuthServiceImpl implements AuthService.Class {
     isAuthenticated(): boolean;
     login(username: string, password: string, rememberMe: boolean): Promise<any>;
     logout(): void;
+    register(name: string, username: string, password: string): Promise<any>;
 }

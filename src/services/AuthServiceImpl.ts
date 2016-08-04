@@ -2,6 +2,7 @@ import { Injectable, Inject, EventEmitter } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
+import * as Agent from "carbonldp/Agent";
 import Context from "carbonldp/Context";
 import Credentials from "carbonldp/Auth/Credentials";
 
@@ -51,5 +52,11 @@ export class AuthServiceImpl implements AuthService.Class {
 		Cookies.remove( AUTH_COOKIE );
 		this.context.auth.clearAuthentication();
 		this.loggedOutEmitter.emit( null );
+	}
+
+	register( name:string, username:string, password:string ):Promise<any> {
+		let agent:Agent.Class = Agent.Factory.create( name, username, password );
+
+		return this.context.agents.create( agent );
 	}
 }

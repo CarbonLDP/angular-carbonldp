@@ -10,6 +10,8 @@ export interface Class {
 	login( username:string, password:string, rememberMe:boolean ):Promise<any>;
 
 	logout():void;
+
+	register( name:string, username:string, password:string ):Promise<any>;
 }
 
 export const Token = new OpaqueToken( "AuthService" );

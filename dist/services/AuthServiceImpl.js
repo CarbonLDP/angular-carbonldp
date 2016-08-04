@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
+var Agent = require("carbonldp/Agent");
 var Context_1 = require("carbonldp/Context");
 var boot_1 = require("./../boot");
 var AuthServiceImpl = (function () {
@@ -62,6 +63,10 @@ var AuthServiceImpl = (function () {
         Cookies.remove(boot_1.AUTH_COOKIE);
         this.context.auth.clearAuthentication();
         this.loggedOutEmitter.emit(null);
+    };
+    AuthServiceImpl.prototype.register = function (name, username, password) {
+        var agent = Agent.Factory.create(name, username, password);
+        return this.context.agents.create(agent);
     };
     AuthServiceImpl = __decorate([
         core_1.Injectable(),
