@@ -1,6 +1,6 @@
 {
   "name": "angular2-carbonldp",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "Helping classes to use Angular2 with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
@@ -17,7 +17,7 @@
     "js-cookie": "^2.1.1"
   },
   "peerDependencies": {
-    "carbonldp": "^0.34.0",
+    "carbonldp": "^0.36.0",
     "@angular/common": ">=2.0.0-rc.1 <=2.0.0-rc.3",
     "@angular/core": ">=2.0.0-rc.1 <=2.0.0-rc.3",
     "@angular/router-deprecated": ">=2.0.0-rc.1 <=2.0.0-rc.2",

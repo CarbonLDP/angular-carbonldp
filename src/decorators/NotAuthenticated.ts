@@ -1,13 +1,13 @@
-import {Router, ComponentInstruction} from "@angular/router-deprecated";
+import { Router, ComponentInstruction } from "@angular/router-deprecated";
 
-import {inject} from "./../boot";
-import {AuthService} from "./../services";
-import {AbstractSecurityAnnotation} from "./AbstractSecurityAnnotation";
-import {makeCanActivateChainableDecorator} from "./CanActivateUtils";
+import { inject } from "./../boot";
+import { AuthService } from "./../services";
+import { AbstractSecurityAnnotation } from "./AbstractSecurityAnnotation";
+import { makeCanActivateChainableDecorator } from "./CanActivateUtils";
 
 
 class NotAuthenticatedAnnotation extends AbstractSecurityAnnotation {
-	constructor( options:{ redirectTo: any[] } ) {
+	constructor( options:{ redirectTo:any[] } ) {
 		super();
 		this.evaluate = function( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean {
 			let authService:AuthService.Class = inject( AuthService.Token );
@@ -21,4 +21,4 @@ class NotAuthenticatedAnnotation extends AbstractSecurityAnnotation {
 	}
 }
 
-export let NotAuthenticated: ( options:{ redirectTo: any[] } ) => ClassDecorator = makeCanActivateChainableDecorator( NotAuthenticatedAnnotation );
+export let NotAuthenticated:( options:{ redirectTo:any[] } ) => ClassDecorator = makeCanActivateChainableDecorator( NotAuthenticatedAnnotation );

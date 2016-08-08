@@ -1,8 +1,10 @@
-import {CanActivate} from "@angular/router-deprecated/src/lifecycle/lifecycle_annotations_impl";
-import {TypeDecorator, Class} from "@angular/core/src/util/decorators";
-import {ComponentInstruction} from "@angular/router-deprecated";
+import "rxjs";
 
-import {AbstractSecurityAnnotation} from "./AbstractSecurityAnnotation";
+import { CanActivate } from "@angular/router-deprecated/src/lifecycle/lifecycle_annotations_impl";
+import { TypeDecorator, Class } from "@angular/core/src/util/decorators";
+import { ComponentInstruction } from "@angular/router-deprecated";
+
+import { AbstractSecurityAnnotation } from "./AbstractSecurityAnnotation";
 
 interface ChainableFn {
 	( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean;
@@ -25,7 +27,7 @@ class ChainableCanActivateDecorator extends CanActivate {
 			}
 			return Promise.all<boolean>( promises ).then( ( results:boolean[] ) => {
 				return results.reduce( ( previousValue, current ) => previousValue && current, true );
-			});
+			} );
 		};
 		fn.evaluateFunctions = [];
 		super( fn );
@@ -33,14 +35,14 @@ class ChainableCanActivateDecorator extends CanActivate {
 }
 
 export function makeCanActivateChainableDecorator( annotationCls:{ new( ...args:any[] ):AbstractSecurityAnnotation } ):( ...args:any[] ) => ( cls:any ) => any {
-	function DecoratorFactory( objOrType:any ):( cls: any ) => any {
+	function DecoratorFactory( objOrType:any ):( cls:any ) => any {
 		let annotationInstance:AbstractSecurityAnnotation = new annotationCls( objOrType );
 
-		if (this instanceof annotationCls) {
+		if( this instanceof annotationCls ) {
 			return <any> annotationInstance;
 		} else {
 			let chainAnnotation:any[] = typeof this === "undefined" && this.annotations instanceof Array ? this.annotations : [];
-			chainAnnotation.push(annotationInstance);
+			chainAnnotation.push( annotationInstance );
 
 			let typeDecorator:TypeDecorator = <TypeDecorator>function TypeDecorator( cls:any ):any {
 				let annotations:any[] = Reflect.getOwnMetadata( "annotations", cls );
@@ -64,6 +66,7 @@ export function makeCanActivateChainableDecorator( annotationCls:{ new( ...args:
 			return typeDecorator;
 		}
 	}
+
 	DecoratorFactory.prototype = Object.create( annotationCls.prototype );
 	return DecoratorFactory;
 }

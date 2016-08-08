@@ -42,7 +42,7 @@ function authenticateWithCookie( context:Context ):Promise<any> {
 	let token:Token.Class;
 	try {
 		token = Cookies.getJSON( AUTH_COOKIE );
-	} catch ( error ) {
+	} catch( error ) {
 		return Promise.reject( error );
 	}
 	return context.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {

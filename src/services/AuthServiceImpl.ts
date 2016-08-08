@@ -4,7 +4,7 @@ import * as Cookies from "js-cookie";
 
 import * as Agent from "carbonldp/Agent";
 import Context from "carbonldp/Context";
-import Credentials from "carbonldp/Auth/Credentials";
+import * as Token from "carbonldp/Auth/Token";
 
 import { AUTH_COOKIE, ContextToken } from "./../boot";
 
@@ -38,7 +38,7 @@ export class AuthServiceImpl implements AuthService.Class {
 	}
 
 	login( username:string, password:string, rememberMe:boolean ):Promise<any> {
-		return this.context.auth.authenticate( username, password ).then( ( credentials:Credentials ) => {
+		return this.context.auth.authenticate( username, password ).then( ( credentials:Token.Class ) => {
 			if( rememberMe ) Cookies.set( AUTH_COOKIE, JSON.stringify( {
 				expirationTime: credentials.expirationTime,
 				key: credentials.key
@@ -57,6 +57,7 @@ export class AuthServiceImpl implements AuthService.Class {
 	register( name:string, username:string, password:string ):Promise<any> {
 		let agent:Agent.Class = Agent.Factory.create( name, username, password );
 
-		return this.context.agents.create( agent );
+		// TODO: Use the actual agents implementation
+		return (<any>this.context).agents.create( agent );
 	}
 }

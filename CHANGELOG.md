@@ -1,3 +1,6 @@
+## 0.2.0 (2016/08/05)
+- Update carbonldp to 0.36.0
+
 ## 0.1.12 (2016/07/15)
 - Fix supported `@angular` versions in `package.json`
 

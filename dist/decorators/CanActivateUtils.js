@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+require("rxjs");
 var lifecycle_annotations_impl_1 = require("@angular/router-deprecated/src/lifecycle/lifecycle_annotations_impl");
 var decorators_1 = require("@angular/core/src/util/decorators");
 var ChainableCanActivateDecorator = (function (_super) {

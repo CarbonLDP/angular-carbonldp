@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
 var Agent = require("carbonldp/Agent");
-var Context_1 = require("carbonldp/Context");
 var boot_1 = require("./../boot");
 var AuthServiceImpl = (function () {
     function AuthServiceImpl(context) {
@@ -66,15 +65,15 @@ var AuthServiceImpl = (function () {
     };
     AuthServiceImpl.prototype.register = function (name, username, password) {
         var agent = Agent.Factory.create(name, username, password);
+        // TODO: Use the actual agents implementation
         return this.context.agents.create(agent);
     };
     AuthServiceImpl = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(boot_1.ContextToken)), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [Object])
     ], AuthServiceImpl);
     return AuthServiceImpl;
-    var _a;
 }());
 exports.AuthServiceImpl = AuthServiceImpl;
 

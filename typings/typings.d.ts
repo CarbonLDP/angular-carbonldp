@@ -4,3 +4,4 @@
 /// <reference path="./index.d.ts" />
 
 /// <reference path="./custom/js-cookie/index.d.ts" />
+/// <reference path="./custom/rxjs/index.d.ts" />
