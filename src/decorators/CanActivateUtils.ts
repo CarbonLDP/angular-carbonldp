@@ -4,7 +4,7 @@ import { CanActivate } from "@angular/router-deprecated/src/lifecycle/lifecycle_
 import { TypeDecorator, Class } from "@angular/core/src/util/decorators";
 import { ComponentInstruction } from "@angular/router-deprecated";
 
-import { AbstractSecurityAnnotation } from "./AbstractSecurityAnnotation";
+import { SecurityAnnotation } from "./SecurityAnnotation";
 
 interface ChainableFn {
 	( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean;
@@ -17,7 +17,7 @@ class ChainableCanActivateDecorator extends CanActivate {
 	constructor() {
 		let fn:ChainableFn = ( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean => {
 			let promises:Promise<boolean>[] = [];
-			for( let evaluateFunction of fn.evaluateFunctions ) {
+			for ( let evaluateFunction of fn.evaluateFunctions ) {
 				let result:Promise<boolean> | boolean = evaluateFunction( next, previous );
 				if( typeof result === "boolean" ) {
 					promises.push( Promise.resolve( result ) );
@@ -34,9 +34,9 @@ class ChainableCanActivateDecorator extends CanActivate {
 	}
 }
 
-export function makeCanActivateChainableDecorator( annotationCls:{ new( ...args:any[] ):AbstractSecurityAnnotation } ):( ...args:any[] ) => ( cls:any ) => any {
+export function makeCanActivateChainableDecorator( annotationCls:{ new( ...args:any[] ):SecurityAnnotation } ):( ...args:any[] ) => ( cls:any ) => any {
 	function DecoratorFactory( objOrType:any ):( cls:any ) => any {
-		let annotationInstance:AbstractSecurityAnnotation = new annotationCls( objOrType );
+		let annotationInstance:SecurityAnnotation = new annotationCls( objOrType );
 
 		if( this instanceof annotationCls ) {
 			return <any> annotationInstance;

@@ -11,6 +11,8 @@ var AbstractSecurityAnnotation = (function () {
             this._evaluate = function (next, previous) {
                 return boot_1.activeContext.promise.then(function () {
                     return evaluate(next, previous);
+                }).catch(function () {
+                    return false;
                 });
             };
         },

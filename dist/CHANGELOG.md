@@ -1,3 +1,9 @@
+## 0.2.2 (2016/08/09)
+- Add `SecurityAnnotation` to abstract behaviour
+
+## 0.2.1 (2016/08/08)
+- Fix error with `RequiresActiveContext` due to an uncaught rejected promise
+
 ## 0.2.0 (2016/08/05)
 - Update carbonldp to 0.36.0
 

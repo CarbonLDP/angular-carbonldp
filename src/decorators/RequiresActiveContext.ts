@@ -1,13 +1,14 @@
 import { Router, ComponentInstruction } from "@angular/router-deprecated";
 
 import { inject, activeContext } from "./../boot";
-import { AbstractSecurityAnnotation } from "./AbstractSecurityAnnotation";
+import { SecurityAnnotation } from "./SecurityAnnotation";
 import { makeCanActivateChainableDecorator } from "./CanActivateUtils";
 
-class RequiresActiveContextAnnotation extends AbstractSecurityAnnotation {
+class RequiresActiveContextAnnotation implements SecurityAnnotation {
+	evaluate:( next:ComponentInstruction, previous:ComponentInstruction ) => Promise<boolean> | boolean;
+
 	constructor( options:{ redirectTo:any[] } ) {
-		super();
-		this.evaluate = function( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean {
+		this.evaluate = function ( next:ComponentInstruction, previous:ComponentInstruction ):Promise<boolean> | boolean {
 			let router:Router = inject( Router );
 
 			return activeContext.promise.then( () => {
