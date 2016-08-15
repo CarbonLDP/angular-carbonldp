@@ -1,12 +1,13 @@
 "use strict";
-var core_1 = require("@angular/core");
-var AuthService = require("./services/AuthService");
+var AuthService = require("./services/auth.service");
 exports.AuthService = AuthService;
-var AuthServiceImpl_1 = require("./services/AuthServiceImpl");
+var carbon_auth_service_1 = require("./services/carbon-auth.service");
+exports.CarbonAuthService = carbon_auth_service_1.CarbonAuthService;
 exports.CARBON_SERVICES_PROVIDERS = [
-    core_1.provide(AuthService.Token, {
-        useClass: AuthServiceImpl_1.AuthServiceImpl,
-    }),
+    {
+        provide: AuthService.Token,
+        useClass: carbon_auth_service_1.CarbonAuthService,
+    },
 ];
 
 //# sourceMappingURL=services.js.map

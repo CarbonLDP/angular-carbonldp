@@ -1,4 +1,4 @@
-import { provide, Provider, Injector, OpaqueToken } from "@angular/core";
+import { OpaqueToken, Injector } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
@@ -12,6 +12,7 @@ import * as Token from "carbonldp/Auth/Token";
 export const AUTH_COOKIE:string = "carbon-token";
 
 let carbon:Carbon = null;
+
 
 /**
  * Function that holds the app's injector. To initialize it, call it passing appRef.injector as a parameter.
@@ -108,21 +109,24 @@ export {
 
 export const ContextToken = new OpaqueToken( "ContextToken" );
 
-export const CARBON_PROVIDERS:Provider[] = [
-	provide( Carbon, {
+export const CARBON_PROVIDERS:any[] = [
+	{
+		provide: Carbon,
 		useFactory: ():Context => {
 			return carbon;
 		},
-	} ),
-	provide( ContextToken, {
+	},
+	{
+		provide: ContextToken,
 		useFactory: ():Context => {
 			return activeContextFn();
 		},
-	} ),
-	provide( App.Context, {
+	},
+	{
+		provide: App.Context,
 		useFactory: ():App.Context => {
 			if( ! activeContextFn.isAppContext() ) throw new Errors.IllegalStateError( "The activeContext is not an App Context" );
 			return <any>activeContextFn();
 		},
-	} ),
+	},
 ];

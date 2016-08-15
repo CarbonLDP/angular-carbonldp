@@ -86,23 +86,26 @@ var activeContextFn = (function () {
 exports.activeContext = activeContextFn;
 exports.ContextToken = new core_1.OpaqueToken("ContextToken");
 exports.CARBON_PROVIDERS = [
-    core_1.provide(Carbon_1.default, {
+    {
+        provide: Carbon_1.default,
         useFactory: function () {
             return carbon;
         },
-    }),
-    core_1.provide(exports.ContextToken, {
+    },
+    {
+        provide: exports.ContextToken,
         useFactory: function () {
             return activeContextFn();
         },
-    }),
-    core_1.provide(App.Context, {
+    },
+    {
+        provide: App.Context,
         useFactory: function () {
             if (!activeContextFn.isAppContext())
                 throw new Errors.IllegalStateError("The activeContext is not an App Context");
             return activeContextFn();
         },
-    }),
+    },
 ];
 
 //# sourceMappingURL=boot.js.map

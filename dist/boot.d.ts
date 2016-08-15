@@ -1,4 +1,4 @@
-import { Provider, Injector, OpaqueToken } from "@angular/core";
+import { OpaqueToken, Injector } from "@angular/core";
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
 export declare const AUTH_COOKIE: string;
@@ -19,4 +19,4 @@ export interface ActiveContextFn {
 declare const activeContextFn: ActiveContextFn;
 export { activeContextFn as activeContext };
 export declare const ContextToken: OpaqueToken;
-export declare const CARBON_PROVIDERS: Provider[];
+export declare const CARBON_PROVIDERS: any[];

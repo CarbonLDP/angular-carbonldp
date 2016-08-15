@@ -5,7 +5,7 @@ function __export(m) {
 // This removes compiler errors related to reflect-metadata
 require("reflect-metadata");
 __export(require("./boot"));
-__export(require("./decorators"));
+__export(require("./guards"));
 __export(require("./services"));
 
 //# sourceMappingURL=index.js.map

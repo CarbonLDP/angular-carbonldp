@@ -1,14 +1,14 @@
-import { provide, Provider } from "@angular/core";
+import * as AuthService from "./services/auth.service";
+import { CarbonAuthService } from "./services/carbon-auth.service";
 
-import * as AuthService from "./services/AuthService";
-import { AuthServiceImpl } from "./services/AuthServiceImpl";
-
-export const CARBON_SERVICES_PROVIDERS:Provider[] = [
-	provide( AuthService.Token, {
-		useClass: AuthServiceImpl,
-	} ),
+export const CARBON_SERVICES_PROVIDERS:any[] = [
+	{
+		provide: AuthService.Token,
+		useClass: CarbonAuthService,
+	},
 ];
 
 export {
-	AuthService
+	AuthService,
+	CarbonAuthService
 };
