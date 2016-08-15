@@ -70,51 +70,57 @@ constructor( @Inject( ContextToken ) private context:Context ) {}
 constructor( @Inject( AuthService.Token ) private authService:AuthService.Class ) {}
 ```
 
-## Decorators
+## Resolvers
 
-### Authenticated
-Decorator that protects a component and makes it only accessible when the user is
-authenticated.
+### ActiveContextResolver
+Resolver that will make sure the Carbon active context is resolved before activating the route.
+
+It needs a route to redirect the user to in case an error occurs configured in the route `data.onError` property.
 ```typescript
-import { Authenticated } from "angular2-carbonldp/decorators";
-
-@Authenticated( {
-    // If the user is not authenticated, it will be redirected to:
-    redirectTo: [ "/Home" ],
-} )
-@Component( {
-    // ...
+{
+    path: "home",
+    component: HomeView,
+    resolve: {
+        activeContext: ActiveContextResolver
+    },
+    data: {
+        onError: [ "/error" ],
+    }
+},
 ```
 
-### NotAuthenticated
-Decorator that protects a component and makes it only accessible when the user is
-not authenticated.
-```typescript
-import { NotAuthenticated } from "angular2-carbonldp/decorators";
+## Guards
+All guards need a route to redirect the user to, if the guard rejects the route activation. This route needs to be
+defined in the route's `data.onReject` property.
 
-@NotAuthenticated( {
-    // If the user is authenticated, it will be redirected to:
-    redirectTo: [ "/Home" ],
-} )
-@Component( {
-    // ...
+### AuthenticatedGuard
+Guard that will prevent the route from being activated when the user hasn't authenticated himself.
+
+```typescript
+{
+    path: "secured",
+    component: SecuredView,
+    canActivate: [ AuthenticatedGuard ],
+    data: {
+        onReject: [ "/login" ],
+        onError: [ "/error" ],
+    }
+}
 ```
 
-### RequiresActiveContext
-Decorator that forces the component to wait for the active context to be initialized.
+### NotAuthenticatedGuard
+Guard that will prevent the route from being activated when the user is already authenticated.
 ```typescript
-import { RequiresActiveContext } from "angular2-carbonldp/decorators";
-
-@RequiresActiveContext( {
-    // If the context fails to be initialized, redirect to:
-    redirectTo: [ "/Home" ],
-} )
-@Component( {
-    // ...
+{
+    path: "login",
+    component: LoginView,
+    canActivate: [ NotAuthenticatedGuard ],
+    data: {
+        onReject: [ "/secured" ],
+        onError: [ "/error" ],
+    }
+},
 ```
-
-### Creating your own security decorator
-TODO
 
 ## Development Setup
 TODO

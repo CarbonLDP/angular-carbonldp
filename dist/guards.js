@@ -4,6 +4,5 @@ function __export(m) {
 }
 __export(require("./guards/authenticated.guard"));
 __export(require("./guards/not-authenticated.guard"));
-__export(require("./guards/requires-active-context.guard"));
 
 //# sourceMappingURL=guards.js.map

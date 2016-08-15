@@ -11,30 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var boot_1 = require("./../boot");
-var RequiresActiveContextGuard = (function () {
-    function RequiresActiveContextGuard(router) {
+var ActiveContextResolver = (function () {
+    function ActiveContextResolver(router) {
         this.router = router;
     }
-    RequiresActiveContextGuard.prototype.canActivate = function (route, state) {
+    ActiveContextResolver.prototype.resolve = function (route) {
         var _this = this;
         return boot_1.activeContext.promise.then(function () {
-            return true;
+            return boot_1.activeContext();
         }).catch(function (error) {
-            if (typeof route.data === "object" && route.data !== null && typeof route.data["onReject"] !== "undefined") {
-                _this.router.navigate(route.data["onReject"]);
+            if (typeof route.data === "object" && route.data !== null && typeof route.data["onError"] !== "undefined") {
+                _this.router.navigate(route.data["onError"]);
             }
             else {
-                console.error("RequiresActiveContextGuard was configured in a route without an 'onReject' property");
+                console.error("ActiveContextResolver was configured in a route without an 'data.onError' property");
             }
             return false;
         });
     };
-    RequiresActiveContextGuard = __decorate([
+    ActiveContextResolver = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [router_1.Router])
-    ], RequiresActiveContextGuard);
-    return RequiresActiveContextGuard;
+    ], ActiveContextResolver);
+    return ActiveContextResolver;
 }());
-exports.RequiresActiveContextGuard = RequiresActiveContextGuard;
+exports.ActiveContextResolver = ActiveContextResolver;
 
-//# sourceMappingURL=requires-active-context.guard.js.map
+//# sourceMappingURL=active-context.resolver.js.map

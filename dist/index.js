@@ -7,5 +7,6 @@ require("reflect-metadata");
 __export(require("./boot"));
 __export(require("./guards"));
 __export(require("./services"));
+__export(require("./resolvers"));
 
 //# sourceMappingURL=index.js.map
