@@ -2,7 +2,7 @@ import { Injectable, Inject, EventEmitter } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
-import * as Agent from "carbonldp/Agent";
+import * as Agent from "carbonldp/Auth/Agent";
 import Context from "carbonldp/Context";
 import * as Token from "carbonldp/Auth/Token";
 
@@ -57,7 +57,6 @@ export class CarbonAuthService implements AuthService.Class {
 	register( name:string, username:string, password:string ):Promise<any> {
 		let agent:Agent.Class = Agent.Factory.create( name, username, password );
 
-		// TODO: Use the actual agents implementation
-		return (<any>this.context).agents.create( agent );
+		return this.context.auth.agents.register( agent );
 	}
 }

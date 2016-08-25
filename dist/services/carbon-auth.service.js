@@ -13,7 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
-var Agent = require("carbonldp/Agent");
+var Agent = require("carbonldp/Auth/Agent");
 var boot_1 = require("./../boot");
 var CarbonAuthService = (function () {
     function CarbonAuthService(context) {
@@ -65,8 +65,7 @@ var CarbonAuthService = (function () {
     };
     CarbonAuthService.prototype.register = function (name, username, password) {
         var agent = Agent.Factory.create(name, username, password);
-        // TODO: Use the actual agents implementation
-        return this.context.agents.create(agent);
+        return this.context.auth.agents.register(agent);
     };
     CarbonAuthService = __decorate([
         core_1.Injectable(),

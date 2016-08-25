@@ -1,3 +1,6 @@
+## 0.3.1 (2016/08/24)
+- Update `carbonldp` to `0.37.0`
+
 ## 0.3.0 (2016/08/15)
 - Update `angular2` to RC5
 
