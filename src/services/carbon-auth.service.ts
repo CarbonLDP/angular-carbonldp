@@ -54,9 +54,10 @@ export class CarbonAuthService implements AuthService.Class {
 		this.loggedOutEmitter.emit( null );
 	}
 
-	register( name:string, username:string, password:string ):Promise<any> {
+	register( name:string, username:string, password:string ):Promise<any>;
+	register( name:string, username:string, password:string, slug:string ):Promise<any>;
+	register( name:string, username:string, password:string, slug?:string ):Promise<any> {
 		let agent:Agent.Class = Agent.Factory.create( name, username, password );
-
-		return this.context.auth.agents.register( agent );
+		return this.context.auth.agents.register( agent, slug );
 	}
 }
