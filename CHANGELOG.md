@@ -1,3 +1,6 @@
+## 0.3.2 (2016/09/2)
+- Add optional slug on `Auth.Service` `register` function, to assign a slug to the creating agent.
+
 ## 0.3.1 (2016/08/24)
 - Update `carbonldp` to `0.37.0`
 
