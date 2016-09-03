@@ -12,6 +12,7 @@ export interface Class {
 	logout():void;
 
 	register( name:string, username:string, password:string ):Promise<any>;
+	register( name:string, username:string, password:string, slug:string ):Promise<any>;
 }
 
 export const Token = new OpaqueToken( "AuthService" );
