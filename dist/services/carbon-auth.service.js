@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
 var Agent = require("carbonldp/Auth/Agent");
-var Context_1 = require("carbonldp/Context");
 var boot_1 = require("./../boot");
 var CarbonAuthService = (function () {
     function CarbonAuthService(context) {
@@ -71,10 +70,9 @@ var CarbonAuthService = (function () {
     CarbonAuthService = __decorate([
         core_1.Injectable(),
         __param(0, core_1.Inject(boot_1.ContextToken)), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [Object])
     ], CarbonAuthService);
     return CarbonAuthService;
-    var _a;
 }());
 exports.CarbonAuthService = CarbonAuthService;
 

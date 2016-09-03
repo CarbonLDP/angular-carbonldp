@@ -1,3 +1,8 @@
+## 0.3.2 (2016/09/02)
+- Add signature to Auth.Service register function to allow a slug parameter to define the agent id.
+- Implement new Auth.Service register signature to send the optional slug when creating the agent.
+- Fix `@angular` packages versions
+
 ## 0.3.1 (2016/08/24)
 - Update `carbonldp` to `0.37.0`
 

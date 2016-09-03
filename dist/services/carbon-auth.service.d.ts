@@ -14,4 +14,5 @@ export declare class CarbonAuthService implements AuthService.Class {
     login(username: string, password: string, rememberMe: boolean): Promise<any>;
     logout(): void;
     register(name: string, username: string, password: string): Promise<any>;
+    register(name: string, username: string, password: string, slug: string): Promise<any>;
 }
