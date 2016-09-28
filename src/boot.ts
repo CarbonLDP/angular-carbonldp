@@ -19,11 +19,27 @@ let carbon:Carbon = null;
  * After that, you can import the function and execute it to receive the same injector.
  * @type {function(Injector=): Injector}
  */
-const appInjectorFn:( injector?:Injector ) => Injector = (():( injector?:Injector ) => Injector => {
+const appInjectorFn:( injector?:Injector ) => Promise<Injector> = (():( injector?:Injector ) => Promise<Injector> => {
 	let appInjector:Injector;
-	return ( injector?:Injector ):Injector => {
-		if( injector ) appInjector = injector;
-		return appInjector;
+
+	let resolve:( injector:Injector ) => void;
+	let reject:( error:any ) => void;
+	let promise:Promise<Injector> = new Promise( ( _resolve:( injector:Injector ) => void, _reject:( error:any ) => void ) => {
+		resolve = _resolve;
+		reject = _reject;
+	} );
+
+	setTimeout( () => {
+		reject( new Error( "appInjector wasn't provided in the configured amount of time" ) );
+	}, 10 * 1000 );
+
+	return ( injector?:Injector ):Promise<Injector> => {
+		if( injector ) {
+			appInjector = injector;
+			resolve( injector );
+		}
+
+		return promise;
 	};
 })();
 
@@ -31,8 +47,10 @@ export {
 	appInjectorFn as appInjector
 };
 
-export function inject( token:any ):any {
-	return appInjectorFn().get( token );
+export function inject( token:any ):Promise<any> {
+	return appInjectorFn().then( ( injector:Injector ) => {
+		return injector.get( token );
+	} );
 }
 
 function authenticationCookieIsPresent():boolean {

@@ -7,9 +7,9 @@ export declare const AUTH_COOKIE: string;
  * After that, you can import the function and execute it to receive the same injector.
  * @type {function(Injector=): Injector}
  */
-declare const appInjectorFn: (injector?: Injector) => Injector;
+declare const appInjectorFn: (injector?: Injector) => Promise<Injector>;
 export { appInjectorFn as appInjector };
-export declare function inject(token: any): any;
+export declare function inject(token: any): Promise<any>;
 export interface ActiveContextFn {
     (): Context;
     promise?: Promise<void>;

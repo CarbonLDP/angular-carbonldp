@@ -14,7 +14,10 @@ export abstract class AbstractAuthenticationGuard implements CanActivate {
 		return activeContext.promise.then( () => {
 			// AuthService needs to be injected here so we don't cause a premature initialization of AuthService
 			// If AuthService is injected in the constructor, the activeContext won't be ready and will cause an error
-			this.authService = inject( AuthService.Token );
+			return inject( AuthService.Token );
+		} ).then( ( authService:AuthService.Class ) => {
+			this.authService = authService;
+
 			return true;
 		} ).catch( ( error ) => {
 			return this.onError( route, state );
