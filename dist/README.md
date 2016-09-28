@@ -10,30 +10,24 @@ If your application is going to use only one App Context (which is normally the 
 the initialization needs to be as follows:
 
 ```typescript
-import { bootstrap } from "angular2/platform/browser";
-import { ComponentRef } from "angular2/core";
-import { appInjector, activeContext, CARBON_PROVIDERS } from "angular2-carbonldp/boot";
-import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
+import { NgModuleRef } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+
+import { CARBON_PROTOCOL, CARBON_DOMAIN, DEBUG } from "app/config";
+import { appInjector, activeContext } from "angular2-carbonldp/boot";
+
 import Carbon from "carbonldp/Carbon";
+import { AppModule } from "app/app.module";
 
 let carbon:Carbon = new Carbon();
 // Here you can configure this instance of carbon (setSetting, extendObjectSchema, etc.)
 
-activeContext.initialize( carbon, "YOUR-APP-SLUG-GOES-HERE/" );
-
-bootstrap( YourMainComponent, [
-    // Your providers...
-    
-    CARBON_PROVIDERS,
-    CARBON_SERVICES_PROVIDERS,
-] ).then( ( appRef:ComponentRef ) => {
-    // Don't forget this line! It gives decorators access to DI
-    appInjector( appRef.injector );
+platformBrowserDynamic().bootstrapModule( AppModule ).then( ( appRef:NgModuleRef<AppModule> ) => {
+    // Don't forget this line! It gives guards access to DI
+	appInjector( appRef.injector );
 } ).catch( ( error ) => {
-    console.error( "Couldn't bootstrap the application" );
-    console.error( error );
-    return Promise.reject( error );
-});
+	console.error( error );
+} );
 ```
 
 ### Platform Context
