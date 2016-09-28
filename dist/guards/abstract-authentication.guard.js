@@ -21,7 +21,9 @@ var AbstractAuthenticationGuard = (function () {
         return boot_1.activeContext.promise.then(function () {
             // AuthService needs to be injected here so we don't cause a premature initialization of AuthService
             // If AuthService is injected in the constructor, the activeContext won't be ready and will cause an error
-            _this.authService = boot_1.inject(services_1.AuthService.Token);
+            return boot_1.inject(services_1.AuthService.Token);
+        }).then(function (authService) {
+            _this.authService = authService;
             return true;
         }).catch(function (error) {
             return _this.onError(route, state);

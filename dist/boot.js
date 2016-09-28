@@ -14,15 +14,28 @@ var carbon = null;
  */
 var appInjectorFn = (function () {
     var appInjector;
+    var resolve;
+    var reject;
+    var promise = new Promise(function (_resolve, _reject) {
+        resolve = _resolve;
+        reject = _reject;
+    });
+    setTimeout(function () {
+        reject(new Error("appInjector wasn't provided in the configured amount of time"));
+    }, 10 * 1000);
     return function (injector) {
-        if (injector)
+        if (injector) {
             appInjector = injector;
-        return appInjector;
+            resolve(injector);
+        }
+        return promise;
     };
 })();
 exports.appInjector = appInjectorFn;
 function inject(token) {
-    return appInjectorFn().get(token);
+    return appInjectorFn().then(function (injector) {
+        return injector.get(token);
+    });
 }
 exports.inject = inject;
 function authenticationCookieIsPresent() {

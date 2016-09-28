@@ -35,12 +35,12 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:library", "prepare-npm-package" ],
+		[ "compile:typescript", "prepare-npm-package" ],
 		done
 	);
 } );
 
-gulp.task( "compile:library", () => {
+gulp.task( "compile:typescript", () => {
 	let tsProject = ts.createProject( "tsconfig.json", {
 		"declaration": true
 	} );
@@ -102,5 +102,17 @@ gulp.task( "prepare-npm-package:copy-package-json", () => {
 			return json;
 		} ) )
 		.pipe( gulp.dest( config.dist.tsOutput ) );
-	;
 } );
+
+gulp.task( "watch", ( done ) => {
+	runSequence(
+		[ "compile:styles", "compile:templates", "compile:typescript" ],
+		[ "watch:styles", "watch:templates", "watch:typescript" ],
+		done
+	);
+} );
+
+gulp.task( "watch:typescript", () => {
+	return gulp.watch( config.source.typescript, [ "compile:typescript" ] );
+} );
+
