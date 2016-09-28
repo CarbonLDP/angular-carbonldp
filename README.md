@@ -1,4 +1,7 @@
 # angular2-carbonldp
+
+[![Build Status](https://travis-ci.org/CarbonLDP/angular2-carbonldp.svg?branch=master)](https://travis-ci.org/CarbonLDP/angular2-carbonldp)
+
 Helping classes that simplify the integration between [Angular2](https://angular.io/) and [CarbonLDP](https://carbonldp.com/)
 
 ## Initialization
