@@ -1,3 +1,7 @@
+## 0.4.1 (2016/10/11)
+
+- Update `@angular` packages to stable release (2.0.2)
+
 ## 0.3.3 (2016/09/28)
 
 - Fix #6
