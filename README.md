@@ -1,14 +1,28 @@
 # angular2-carbonldp
 
-[![Build Status](https://travis-ci.org/CarbonLDP/angular2-carbonldp.svg?branch=master)](https://travis-ci.org/CarbonLDP/angular2-carbonldp)
+[![npm version](https://badge.fury.io/js/angular2-carbonldp.svg)](https://badge.fury.io/js/angular2-carbonldp)
+
+[![Build Status](https://travis-ci.org/CarbonLDP/angular2-carbonldp.svg)](https://travis-ci.org/CarbonLDP/angular2-carbonldp)
 
 Helping classes that simplify the integration between [Angular2](https://angular.io/) and [CarbonLDP](https://carbonldp.com/)
 
-## Initialization
+## Installation
+
+Install through [npm](https://www.npmjs.com/) using the following command:
+
+```bash
+npm install angular2-carbonldp
+```
+
+## Usage
+
+### Initialization
+
 In the file where you are bootstrapping your Angular2 application (commonly boot.ts),
 you need to initialize the active Carbon's context you are going to use across your application.
 
-### App Context
+#### App Context
+
 If your application is going to use only one App Context (which is normally the case),
 the initialization needs to be as follows:
 
@@ -33,7 +47,8 @@ platformBrowserDynamic().bootstrapModule( AppModule ).then( ( appRef:NgModuleRef
 } );
 ```
 
-### Platform Context
+#### Platform Context
+
 If instead, your web application is going to work with several Carbon App Contexts
 (an Advanced use), the initialization would be exactly the same but without providing an app slug:
 
@@ -41,7 +56,8 @@ If instead, your web application is going to work with several Carbon App Contex
 activeContext.initialize( carbon );
 ```
 
-## DI Objects
+### DI Objects
+
 After initializing the context and registering the providers, the following objects can be injected:
 
 ```typescript
@@ -67,9 +83,10 @@ constructor( @Inject( ContextToken ) private context:Context ) {}
 constructor( @Inject( AuthService.Token ) private authService:AuthService.Class ) {}
 ```
 
-## Resolvers
+### Resolvers
 
-### ActiveContextResolver
+#### ActiveContextResolver
+
 Resolver that will make sure the Carbon active context is resolved before activating the route.
 
 It needs a route to redirect the user to in case an error occurs configured in the route `data.onError` property.
@@ -86,11 +103,13 @@ It needs a route to redirect the user to in case an error occurs configured in t
 },
 ```
 
-## Guards
+### Guards
+
 All guards need a route to redirect the user to, if the guard rejects the route activation. This route needs to be
 defined in the route's `data.onReject` property.
 
-### AuthenticatedGuard
+#### AuthenticatedGuard
+
 Guard that will prevent the route from being activated when the user hasn't authenticated himself.
 
 ```typescript
@@ -105,7 +124,8 @@ Guard that will prevent the route from being activated when the user hasn't auth
 }
 ```
 
-### NotAuthenticatedGuard
+#### NotAuthenticatedGuard
+
 Guard that will prevent the route from being activated when the user is already authenticated.
 ```typescript
 {
@@ -119,13 +139,16 @@ Guard that will prevent the route from being activated when the user is already 
 },
 ```
 
-## Development Setup
+## Development
+
 TODO
 
 ### Gulp tasks
+
 TODO
 
 ### File structure
+
 TODO
 
 ## License
