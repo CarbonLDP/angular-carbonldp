@@ -1,6 +1,6 @@
 {
   "name": "angular2-carbonldp",
-  "version": "0.4.3-rc.1",
+  "version": "0.4.0",
   "description": "Helping classes to use Angular2 with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
