@@ -1,6 +1,7 @@
 ## 0.4.2 (2017/02/23)
 
 - Update `carbonldp` package to `^0.40.0` (latest semi-stable version)
+- Fix build task
 
 ## 0.4.1 (2016/10/11)
 
