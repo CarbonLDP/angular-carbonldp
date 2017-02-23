@@ -6,9 +6,9 @@ export declare class CarbonAuthService implements AuthService.Class {
     private _loggedOutEmitter;
     private _authChangedEmitter;
     private context;
-    loggedInEmitter: EventEmitter<any>;
-    loggedOutEmitter: EventEmitter<any>;
-    authChangedEmitter: EventEmitter<any>;
+    readonly loggedInEmitter: EventEmitter<any>;
+    readonly loggedOutEmitter: EventEmitter<any>;
+    readonly authChangedEmitter: EventEmitter<any>;
     constructor(context: Context);
     isAuthenticated(): boolean;
     login(username: string, password: string, rememberMe: boolean): Promise<any>;

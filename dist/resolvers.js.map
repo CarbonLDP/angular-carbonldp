@@ -1,1 +1,1 @@
-{"version":3,"sources":["resolvers.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,qCAAqC,CAAC,EAAA","file":"resolvers.js","sourcesContent":["export * from \"./resolvers/active-context.resolver\";\n"],"sourceRoot":"/source/"}
+{"version":3,"sources":["resolvers.ts"],"names":[],"mappings":";;;;AAAA,iBAAc,qCAAqC,CAAC,EAAA","file":"resolvers.js","sourcesContent":["export * from \"./resolvers/active-context.resolver\";\n"]}
