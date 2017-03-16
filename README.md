@@ -16,10 +16,18 @@ npm install angular2-carbonldp
 
 ## Usage
 
+To use this library, you have to follow three steps:
+ 1. **Initialization** of your Carbon context
+ 2. **Provision** of the context to your app
+ 3. **Injection** of the desired context to your app 
+
 ### Initialization
 
-In the file where you are bootstrapping your Angular2 application (commonly boot.ts),
+In the bootstrapping file of your Angular2 application (commonly main.ts),
 you need to initialize the active Carbon's context you are going to use across your application.
+The contexts with which you can initialize your Carbon instance can be the following:
+ - App Context
+ - Platform Context
 
 #### App Context
 
@@ -33,14 +41,18 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { CARBON_PROTOCOL, CARBON_DOMAIN, DEBUG } from "app/config";
 import { appInjector, activeContext } from "angular2-carbonldp/boot";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import { AppModule } from "app/app.module";
 
 let carbon:Carbon = new Carbon();
 // Here you can configure this instance of carbon (setSetting, extendObjectSchema, etc.)
+// e.g: carbon.setSetting( "domain", CARBON_DOMAIN );
+
+// Initialize carbon with you application context
+activeContext.initialize( carbon, "your-app-slug/" );
 
 platformBrowserDynamic().bootstrapModule( AppModule ).then( ( appRef:NgModuleRef<AppModule> ) => {
-    // Don't forget this line! It gives guards access to DI
+	// Don't forget this line! It gives guards access to DI
 	appInjector( appRef.injector );
 } ).catch( ( error ) => {
 	console.error( error );
@@ -56,14 +68,48 @@ If instead, your web application is going to work with several Carbon App Contex
 activeContext.initialize( carbon );
 ```
 
-### DI Objects
+### Provision
+
+After the **initialization** of your contexts, you can now proceed to [provide to your main module](https://angular.io/docs/ts/latest/guide/dependency-injection.html#!#sts=Registering%20providers%20in%20an%20NgModule) the generated contexts.
+To do this, the provision needs to be as follows:
+ 
+ ```typescript
+ import { NgModule } from "@angular/core";
+ import { BrowserModule } from "@angular/platform-browser";
+ 
+ // Providers
+ import { CARBON_PROVIDERS } from "angular2-carbonldp/boot";
+ import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
+ 
+ // Components
+ import { AppComponent } from "./app.component";
+ 
+ 
+ @NgModule( {
+ 	imports: [
+ 		BrowserModule
+ 	],
+ 	declarations: [
+ 		AppComponent
+ 	],
+ 	providers: [
+ 		CARBON_PROVIDERS,            // <-- This provides the contexts (App or Platform) to your app 
+ 		CARBON_SERVICES_PROVIDERS,   // <-- This provides the Carbon authentication services to your app
+ 	],
+ 	bootstrap: [ AppComponent ],
+ } )
+ export class AppModule { }
+ ```
+
+
+### Injection (DI Objects)
 
 After initializing the context and registering the providers, the following objects can be injected:
 
 ```typescript
-import { Inject } from "angular2/core";
+import { Inject } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 
@@ -83,6 +129,11 @@ constructor( @Inject( ContextToken ) private context:Context ) {}
 constructor( @Inject( AuthService.Token ) private authService:AuthService.Class ) {}
 ```
 
+Until here, your app is now integrated with Carbon. You can now make use of Carbon inside your app.
+
+But if you want to use Carbon inside the routes of your app, let's say to allow or forbid routes, you can also use the **Resolvers** and **Guards** that this library provides.
+
+
 ### Resolvers
 
 #### ActiveContextResolver
@@ -91,16 +142,24 @@ Resolver that will make sure the Carbon active context is resolved before activa
 
 It needs a route to redirect the user to in case an error occurs configured in the route `data.onError` property.
 ```typescript
-{
-    path: "home",
-    component: HomeView,
-    resolve: {
-        activeContext: ActiveContextResolver
-    },
-    data: {
-        onError: [ "/error" ],
-    }
-},
+import { Routes } from "@angular/router";
+// Resolvers
+import { ActiveContextResolver } from "angular2-carbonldp/resolvers";
+
+const appRoutes:Routes = [
+	...
+	{
+        path: "home",
+        component: HomeView,
+        resolve: {
+            activeContext: ActiveContextResolver
+        },
+        data: {
+            onError: [ "/error" ],
+        }
+	},
+	...
+];
 ```
 
 ### Guards
@@ -113,43 +172,105 @@ defined in the route's `data.onReject` property.
 Guard that will prevent the route from being activated when the user hasn't authenticated himself.
 
 ```typescript
-{
-    path: "secured",
-    component: SecuredView,
-    canActivate: [ AuthenticatedGuard ],
-    data: {
-        onReject: [ "/login" ],
-        onError: [ "/error" ],
-    }
-}
+import { Routes } from "@angular/router";
+// Guards
+import { AuthenticatedGuard } from "angular2-carbonldp/guards";
+
+const appRoutes:Routes = [
+	...
+	{
+	    path: "secured",
+	    component: SecuredView,
+	    canActivate: [ AuthenticatedGuard ],
+	    data: {
+	        onReject: [ "/login" ],
+	        onError: [ "/error" ],
+	    }
+	},
+	...
+];
 ```
 
 #### NotAuthenticatedGuard
 
 Guard that will prevent the route from being activated when the user is already authenticated.
 ```typescript
-{
-    path: "login",
-    component: LoginView,
-    canActivate: [ NotAuthenticatedGuard ],
-    data: {
-        onReject: [ "/secured" ],
-        onError: [ "/error" ],
-    }
-},
+import { Routes } from "@angular/router";
+// Guards
+import { NotAuthenticatedGuard } from "angular2-carbonldp/guards";
+
+const appRoutes:Routes = [
+	...
+	{
+        path: "login",
+        component: LoginView,
+        canActivate: [ NotAuthenticatedGuard ],
+        data: {
+            onReject: [ "/secured" ],
+            onError: [ "/error" ],
+        }
+	},
+	...
+];
 ```
 
 ## Development
 
-TODO
+To develop this library you need to have installed the following:
+ 1. [node.js](https://nodejs.org/es/docs/)
+ 2. [npm](https://www.npmjs.com)
+ 
+The steps to develop the library are as follows:
+ 1. `cd` to the project path
+ 2. `npm install`
+ 3. `gulp` to bundle the library
+ 4. `gulp:watch` to watch for changes inside the `src` folder
 
 ### Gulp tasks
 
-TODO
+Gulp defines two tasks:
+
+- `default`: Runs the `build` task
+- `build`: Runs the following tasks: `clean:dist`, `compile:typescript:aot`, `build:prepare-npm-package`
+- `compile:typescript`: Compiles typescript using the `gulp-typescript` plugin
+- `compile:typescript:aot`: Compiles typescript using the `@angular/compiler-cli` ensuring an AOT compliant library
+- `clean:dist`: Cleans `dist` directory
+- `lint`: Runs `lint:typescript`
+- `lint:typescript`: Checks the source code for Programmatic as well as Stylistic errors
+- `build:prepare-npm-package`: Prepares publishable npm package inside of the `dist` directory
+- `build:prepare-npm-package:copy:docs`: Copies documentation files for the publishable npm package
+- `build:prepare-npm-package:copy:package-json`: Copies and prepares the `package.json` file for the publishable npm package
+- `watch`: Sets up a service to watch for any change to any source file and run the associated tasks to them. Really useful for development
+- `watch:typescript`: Watches for changes in typescript files (ts)
 
 ### File structure
 
-TODO
+    .
+    ├── dist                                        # Compiled files
+    ├── src                                         # Source files
+    │   ├── guards                                  
+    │   │   ├── abstract-authentication.guard.ts    # Guard implementing CanActivate
+    │   │   ├── authenticated.guard.ts              # Guard preventing access to unauthenticated users
+    │   │   └── not-authenticated.guard.ts          # Guard peventing access to authenticated users
+    │   ├── resolvers                               
+    │   │   └── acitve-context.resolver.ts          # Resolver that checks if there's an activeContext
+    │   ├── services                                
+    │   │   ├── auth.service.ts                     # Interface and token to use when implementing an Auth Service
+    │   │   └── carbon-auth.service.ts              # Service implementing the Auth Service usin Carbon 
+    │   ├── boot.ts                                 # Exports appInjectorFn, CARBON_PROVIDERS and activeContext
+    │   ├── guards.ts                               # Exports guards
+    │   ├── index.ts                                # Exports boot, guards, services and resolvers
+    │   ├── resolvers.ts                            # Exports resolvers
+    │   └── services.ts                             # Exports services
+    ├── gitignore                                   
+    ├── .tsvis.yml                                  # Travis configuration file 
+    ├── CHANGELOG                                   
+    ├── gulpfile.js                                 # Gulp's tasks definition file
+    ├── LICENSE
+    ├── package.json                                
+    ├── README.md                             
+    └── README.md                                   # Typescript and Angular compiler configuration file.
+
 
 ## License
 
