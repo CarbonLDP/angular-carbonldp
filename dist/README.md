@@ -216,7 +216,15 @@ const appRoutes:Routes = [
 
 ## Development
 
-TODO
+To develop this library you need to have installed the following:
+ 1. [node.js](https://nodejs.org/es/docs/)
+ 2. [npm](https://www.npmjs.com)
+ 
+The steps to develop the library are as follows:
+ 1. `cd` to the project path
+ 2. `npm install`
+ 3. `gulp` to bundle the library
+ 4. `gulp:watch` to watch for changes inside the `src` folder
 
 ### Gulp tasks
 
@@ -224,18 +232,45 @@ Gulp defines two tasks:
 
 - `default`: Runs the `build` task
 - `build`: Runs the following tasks: `clean:dist`, `compile:typescript:aot`, `build:prepare-npm-package`
-- `build:prepare-npm-package`: Prepares publishable npm package inside of the `dist` directory
-- `build:prepare-npm-package:copy:docs`: Copies documentation files for the publishable npm package
-- `build:prepare-npm-package:copy:package-json`: Copies and prepares the `package.json` file for the publishable npm package
 - `compile:typescript`: Compiles typescript using the `gulp-typescript` plugin
 - `compile:typescript:aot`: Compiles typescript using the `@angular/compiler-cli` ensuring an AOT compliant library
 - `clean:dist`: Cleans `dist` directory
 - `lint`: Runs `lint:typescript`
 - `lint:typescript`: Checks the source code for Programmatic as well as Stylistic errors
+- `build:prepare-npm-package`: Prepares publishable npm package inside of the `dist` directory
+- `build:prepare-npm-package:copy:docs`: Copies documentation files for the publishable npm package
+- `build:prepare-npm-package:copy:package-json`: Copies and prepares the `package.json` file for the publishable npm package
+- `watch`: Sets up a service to watch for any change to any source file and run the associated tasks to them. Really useful for development
+- `watch:typescript`: Watches for changes in typescript files (ts)
 
 ### File structure
 
-TODO
+    .
+    ├── dist                                        # Compiled files
+    ├── src                                         # Source files
+    │   ├── guards                                  
+    │   │   ├── abstract-authentication.guard.ts    # Guard implementing CanActivate
+    │   │   ├── authenticated.guard.ts              # Guard preventing access to unauthenticated users
+    │   │   └── not-authenticated.guard.ts          # Guard peventing access to authenticated users
+    │   ├── resolvers                               
+    │   │   └── acitve-context.resolver.ts          # Resolver that checks if there's an activeContext
+    │   ├── services                                
+    │   │   ├── auth.service.ts                     # Interface and token to use when implementing an Auth Service
+    │   │   └── carbon-auth.service.ts              # Service implementing the Auth Service usin Carbon 
+    │   ├── boot.ts                                 # Exports appInjectorFn, CARBON_PROVIDERS and activeContext
+    │   ├── guards.ts                               # Exports guards
+    │   ├── index.ts                                # Exports boot, guards, services and resolvers
+    │   ├── resolvers.ts                            # Exports resolvers
+    │   └── services.ts                             # Exports services
+    ├── gitignore                                   
+    ├── .tsvis.yml                                  # Travis configuration file 
+    ├── CHANGELOG                                   
+    ├── gulpfile.js                                 # Gulp's tasks definition file
+    ├── LICENSE
+    ├── package.json                                
+    ├── README.md                             
+    └── README.md                                   # Typescript and Angular compiler configuration file.
+
 
 ## License
 
