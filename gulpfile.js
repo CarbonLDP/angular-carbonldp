@@ -35,7 +35,7 @@ gulp.task( "default", [ "build" ] );
 
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
-		[ "clean:dist", "clean:compiled" ],
+		"clean:dist",
 		[ "compile:typescript:aot", "prepare-npm-package" ],
 		done
 	);
