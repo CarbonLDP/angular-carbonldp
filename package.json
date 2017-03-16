@@ -20,11 +20,15 @@
     "js-cookie": "^2.1.1"
   },
   "devDependencies": {
-    "@angular/common": "^2.0.2",
-    "@angular/core": "^2.0.2",
-    "@angular/platform-browser": "^2.0.2",
-    "@angular/router": "^3.0.2",
-    "carbonldp": "^0.37.0",
+    "@angular/common": "^2.4.9",
+    "@angular/compiler": "^2.4.9",
+    "@angular/compiler-cli": "^2.4.9",
+    "@angular/core": "^2.4.9",
+    "@angular/platform-browser": "^2.4.9",
+    "@angular/router": "^3.4.9",
+    "@types/js-cookie": "^2.0.28",
+    "@types/node": "^7.0.5",
+    "carbonldp": "^0.41.0",
     "del": "^2.2.0",
     "dts-generator": "^1.7.0",
     "glob": "^7.0.3",
@@ -36,18 +40,18 @@
     "gulp-util": "^3.0.7",
     "minimatch": "^3.0.0",
     "run-sequence": "^1.2.1",
-    "rxjs": "^5.0.0-beta.12",
-    "tslint": "^3.10.2",
-    "typescript": "2.0.8",
-    "typings": "^1.0.4",
-    "zone.js": "^0.6.17"
+    "rxjs": "^5.2.0",
+    "tslint": "^4.5.1",
+    "typescript": "2.0.10",
+    "zone.js": "^0.7.7"
   },
   "peerDependencies": {
-    "@angular/common": "^2.0.2",
-    "@angular/core": "^2.0.2",
-    "@angular/router": "^3.0.2",
-    "carbonldp": "^0.40.0",
-    "rxjs": "^5.0.0-beta.12"
+    "@angular/common": "^2.4.9",
+    "@angular/core": "^2.4.9",
+    "@angular/router": "^3.4.9",
+    "carbonldp": "^0.41.0",
+    "typescript": "2.2.1",
+    "rxjs": "^5.2.0"
   },
   "private": true
 }
