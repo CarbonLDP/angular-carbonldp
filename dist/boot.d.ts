@@ -1,5 +1,6 @@
 import { OpaqueToken, Injector } from "@angular/core";
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
+import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 export declare const AUTH_COOKIE: string;
 /**
@@ -19,4 +20,7 @@ export interface ActiveContextFn {
 declare const activeContextFn: ActiveContextFn;
 export { activeContextFn as activeContext };
 export declare const ContextToken: OpaqueToken;
+export declare function aotCarbonFactory(): Context;
+export declare function aotActiveContextFnFactory(): Context;
+export declare function aotAppContextFactory(): App.Context;
 export declare const CARBON_PROVIDERS: any[];

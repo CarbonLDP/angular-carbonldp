@@ -6,7 +6,7 @@ var App = require("carbonldp/App");
 var Errors = require("carbonldp/Errors");
 var HTTP = require("carbonldp/HTTP");
 exports.AUTH_COOKIE = "carbon-token";
-var carbon = null;
+var carbon = new Carbon_1.Carbon();
 /**
  * Function that holds the app's injector. To initialize it, call it passing appRef.injector as a parameter.
  * After that, you can import the function and execute it to receive the same injector.
@@ -66,7 +66,7 @@ var activeContextFn = (function () {
     };
     activeContextFn.promise = Promise.resolve();
     activeContextFn.initialize = function (configuredCarbon, appSlug) {
-        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.default(); }
+        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.Carbon(); }
         if (appSlug === void 0) { appSlug = null; }
         carbon = configuredCarbon;
         var contextPromise = null;
@@ -98,27 +98,31 @@ var activeContextFn = (function () {
 })();
 exports.activeContext = activeContextFn;
 exports.ContextToken = new core_1.OpaqueToken("ContextToken");
+function aotCarbonFactory() {
+    return carbon;
+}
+exports.aotCarbonFactory = aotCarbonFactory;
+function aotActiveContextFnFactory() {
+    return activeContextFn();
+}
+exports.aotActiveContextFnFactory = aotActiveContextFnFactory;
+function aotAppContextFactory() {
+    if (!activeContextFn.isAppContext())
+        throw new Errors.IllegalStateError("The activeContext is not an App Context");
+    return activeContextFn();
+}
+exports.aotAppContextFactory = aotAppContextFactory;
 exports.CARBON_PROVIDERS = [
     {
-        provide: Carbon_1.default,
-        useFactory: function () {
-            return carbon;
-        },
+        provide: Carbon_1.Carbon,
+        useFactory: aotCarbonFactory,
     },
     {
         provide: exports.ContextToken,
-        useFactory: function () {
-            return activeContextFn();
-        },
+        useFactory: aotActiveContextFnFactory,
     },
     {
         provide: App.Context,
-        useFactory: function () {
-            if (!activeContextFn.isAppContext())
-                throw new Errors.IllegalStateError("The activeContext is not an App Context");
-            return activeContextFn();
-        },
+        useFactory: aotAppContextFactory,
     },
 ];
-
-//# sourceMappingURL=boot.js.map
