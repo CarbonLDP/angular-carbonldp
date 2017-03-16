@@ -16,6 +16,7 @@ const minimatch = require( "minimatch" );
 const jeditor = require( "gulp-json-editor" );
 
 const tslint = require( "gulp-tslint" );
+const exec = require( "child_process" ).exec;
 
 let config = {
 	source: {
@@ -34,8 +35,8 @@ gulp.task( "default", [ "build" ] );
 
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
-		"clean:dist",
-		[ "compile:typescript", "prepare-npm-package" ],
+		[ "clean:dist", "clean:compiled" ],
+		[ "compile:typescript:aot", "prepare-npm-package" ],
 		done
 	);
 } );
@@ -57,6 +58,12 @@ gulp.task( "compile:typescript", () => {
 		.pipe( sourcemaps.write( "." ) )
 		.pipe( gulp.dest( config.dist.tsOutput ) )
 		;
+} );
+
+gulp.task( "compile:typescript:aot", function( cb ) {
+	exec( "node_modules/.bin/ngc -p tsconfig.json", function( err, stdout, stderr ) {
+		cb( err );
+	} );
 } );
 
 gulp.task( "clean:dist", ( done ) => {
@@ -106,13 +113,13 @@ gulp.task( "prepare-npm-package:copy-package-json", () => {
 
 gulp.task( "watch", ( done ) => {
 	runSequence(
-		[ "compile:styles", "compile:templates", "compile:typescript" ],
-		[ "watch:styles", "watch:templates", "watch:typescript" ],
+		[ "compile:typescript:aot" ],
+		[ "watch:typescript" ],
 		done
 	);
 } );
 
 gulp.task( "watch:typescript", () => {
-	return gulp.watch( config.source.typescript, [ "compile:typescript" ] );
+	return gulp.watch( config.source.typescript, [ "compile:typescript:aot" ] );
 } );
 
