@@ -36,7 +36,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:typescript:aot", "prepare-npm-package" ],
+		[ "compile:typescript:aot", "build:prepare-npm-package" ],
 		done
 	);
 } );
@@ -81,14 +81,14 @@ gulp.task( "lint:typescript", () => {
 		;
 } );
 
-gulp.task( "prepare-npm-package", ( done ) => {
+gulp.task( "build:prepare-npm-package", ( done ) => {
 	runSequence(
-		[ "prepare-npm-package:copy-docs", "prepare-npm-package:copy-package-json" ],
+		[ "build:prepare-npm-package:copy:docs", "build:prepare-npm-package:copy:package-json" ],
 		done
 	);
 } );
 
-gulp.task( "prepare-npm-package:copy-docs", () => {
+gulp.task( "build:prepare-npm-package:copy:docs", () => {
 	return gulp.src( [
 		"README.md",
 		"CHANGELOG.md",
@@ -96,7 +96,7 @@ gulp.task( "prepare-npm-package:copy-docs", () => {
 	] ).pipe( gulp.dest( config.dist.tsOutput ) );
 } );
 
-gulp.task( "prepare-npm-package:copy-package-json", () => {
+gulp.task( "build:prepare-npm-package:copy:package-json", () => {
 	return gulp.src( "package.json" )
 		.pipe( jeditor( ( json ) => {
 			delete json.private;
