@@ -1,21 +1,12 @@
 "use strict";
 
-const fs = require( "fs" );
 const del = require( "del" );
-
 const gulp = require( "gulp" );
-const util = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
-
+const jeditor = require( "gulp-json-editor" );
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
-
 const dts = require( "dts-generator" );
-const glob = require( "glob" );
-const minimatch = require( "minimatch" );
-const jeditor = require( "gulp-json-editor" );
-
-const tslint = require( "gulp-tslint" );
 const exec = require( "child_process" ).exec;
 
 let config = {
@@ -51,13 +42,11 @@ gulp.task( "compile:typescript", () => {
 		.pipe( tsProject() );
 
 	tsResults.dts
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-	;
+		.pipe( gulp.dest( config.dist.tsOutput ) );
 
 	return tsResults.js
 		.pipe( sourcemaps.write( "." ) )
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-		;
+		.pipe( gulp.dest( config.dist.tsOutput ) );
 } );
 
 gulp.task( "compile:typescript:aot", function( cb ) {
@@ -68,17 +57,6 @@ gulp.task( "compile:typescript:aot", function( cb ) {
 
 gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
-} );
-
-gulp.task( "lint", [ "lint:typescript" ] );
-
-gulp.task( "lint:typescript", () => {
-	return gulp.src( config.source.typescript )
-		.pipe( tslint( {
-			tslint: require( "tslint" )
-		} ) )
-		.pipe( tslint.report( "prose" ) )
-		;
 } );
 
 gulp.task( "build:prepare-npm-package", ( done ) => {
