@@ -21,7 +21,7 @@ To use this library, you have to follow three steps:
  2. **Provision** of the context to your app
  3. **Injection** of the desired context to your app 
 
-### Initialization
+### 1. Initialization
 
 In the bootstrapping file of your Angular2 application (commonly main.ts),
 you need to initialize the active Carbon's context you are going to use across your application.
@@ -68,7 +68,7 @@ If instead, your web application is going to work with several Carbon App Contex
 activeContext.initialize( carbon );
 ```
 
-### Provision
+### 2. Provision
 
 After the **initialization** of your contexts, you can now proceed to [provide to your main module](https://angular.io/docs/ts/latest/guide/dependency-injection.html#!#sts=Registering%20providers%20in%20an%20NgModule) the generated contexts.
 To do this, the provision needs to be as follows:
@@ -102,7 +102,7 @@ To do this, the provision needs to be as follows:
  ```
 
 
-### Injection (DI Objects)
+### 3. Injection (DI Objects)
 
 After initializing the context and registering the providers, the following objects can be injected:
 
@@ -134,9 +134,14 @@ Until here, your app is now integrated with Carbon. You can now make use of Carb
 But if you want to use Carbon inside the routes of your app, let's say to allow or forbid routes, you can also use the **Resolvers** and **Guards** that this library provides.
 
 
-### Resolvers
+### Resolvers & Guards
 
-#### ActiveContextResolver
+#### Resolvers
+
+[Resolvers](https://angular.io/docs/ts/latest/guide/router.html#!#resolve-guard) help you to assure that a desired data will be available before rendering a routed component.
+This library provides you the following resolver:
+
+##### ActiveContextResolver
 
 Resolver that will make sure the Carbon active context is resolved before activating the route.
 
@@ -162,12 +167,14 @@ const appRoutes:Routes = [
 ];
 ```
 
-### Guards
+#### Guards
 
+[Guards](https://angular.io/docs/ts/latest/guide/router.html#!#guards) help you to continue or block navigation to a given route depending on a condition.
 All guards need a route to redirect the user to, if the guard rejects the route activation. This route needs to be
 defined in the route's `data.onReject` property.
+We provide you the following two guards:
 
-#### AuthenticatedGuard
+##### AuthenticatedGuard
 
 Guard that will prevent the route from being activated when the user hasn't authenticated himself.
 
@@ -235,8 +242,6 @@ Gulp defines two tasks:
 - `compile:typescript`: Compiles typescript using the `gulp-typescript` plugin
 - `compile:typescript:aot`: Compiles typescript using the `@angular/compiler-cli` ensuring an AOT compliant library
 - `clean:dist`: Cleans `dist` directory
-- `lint`: Runs `lint:typescript`
-- `lint:typescript`: Checks the source code for Programmatic as well as Stylistic errors
 - `build:prepare-npm-package`: Prepares publishable npm package inside of the `dist` directory
 - `build:prepare-npm-package:copy:docs`: Copies documentation files for the publishable npm package
 - `build:prepare-npm-package:copy:package-json`: Copies and prepares the `package.json` file for the publishable npm package
@@ -263,13 +268,13 @@ Gulp defines two tasks:
     │   ├── resolvers.ts                            # Exports resolvers
     │   └── services.ts                             # Exports services
     ├── gitignore                                   
-    ├── .tsvis.yml                                  # Travis configuration file 
+    ├── .travis.yml                                  # Travis configuration file
     ├── CHANGELOG                                   
     ├── gulpfile.js                                 # Gulp's tasks definition file
     ├── LICENSE
     ├── package.json                                
     ├── README.md                             
-    └── README.md                                   # Typescript and Angular compiler configuration file.
+    └── tsconfig.json                               # Typescript and Angular compiler configuration file.
 
 
 ## License
