@@ -267,13 +267,13 @@ Gulp defines two tasks:
     │   ├── index.ts                                # Exports boot, guards, services and resolvers
     │   ├── resolvers.ts                            # Exports resolvers
     │   └── services.ts                             # Exports services
-    ├── gitignore                                   
-    ├── .travis.yml                                  # Travis configuration file
-    ├── CHANGELOG                                   
+    ├── gitignore                                   # Ignore file for git
+    ├── .travis.yml                                 # Travis configuration file
+    ├── CHANGELOG                                   # File to track package changes
     ├── gulpfile.js                                 # Gulp's tasks definition file
     ├── LICENSE
-    ├── package.json                                
-    ├── README.md                             
+    ├── package.json                                # npm configuration file
+    ├── README.md                                   # this
     └── tsconfig.json                               # Typescript and Angular compiler configuration file.
 
 
