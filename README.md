@@ -277,6 +277,11 @@ Gulp defines two tasks:
     └── tsconfig.json                               # Typescript and Angular compiler configuration file.
 
 
+## TODO
+
+- Linting
+- Testing
+
 ## License
 
 	Copyright (c) 2015-present, Base22 Technology Group, LLC.
