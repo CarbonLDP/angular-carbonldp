@@ -6,7 +6,7 @@ var App = require("carbonldp/App");
 var Errors = require("carbonldp/Errors");
 var HTTP = require("carbonldp/HTTP");
 exports.AUTH_COOKIE = "carbon-token";
-var carbon = new Carbon_1.Carbon();
+var carbon = new Carbon_1.Class();
 /**
  * Function that holds the app's injector. To initialize it, call it passing appRef.injector as a parameter.
  * After that, you can import the function and execute it to receive the same injector.
@@ -66,7 +66,7 @@ var activeContextFn = (function () {
     };
     activeContextFn.promise = Promise.resolve();
     activeContextFn.initialize = function (configuredCarbon, appSlug) {
-        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.Carbon(); }
+        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.Class(); }
         if (appSlug === void 0) { appSlug = null; }
         carbon = configuredCarbon;
         var contextPromise = null;
@@ -114,7 +114,7 @@ function aotAppContextFactory() {
 exports.aotAppContextFactory = aotAppContextFactory;
 exports.CARBON_PROVIDERS = [
     {
-        provide: Carbon_1.Carbon,
+        provide: Carbon_1.Class,
         useFactory: aotCarbonFactory,
     },
     {

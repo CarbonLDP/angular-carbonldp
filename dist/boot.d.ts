@@ -1,5 +1,5 @@
 import { OpaqueToken, Injector } from "@angular/core";
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 export declare const AUTH_COOKIE: string;
