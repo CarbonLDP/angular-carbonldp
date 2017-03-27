@@ -67,13 +67,11 @@ var CarbonAuthService = (function () {
         var agent = Agent.Factory.create(name, username, password);
         return this.context.auth.agents.register(agent, slug);
     };
-    CarbonAuthService = __decorate([
-        core_1.Injectable(),
-        __param(0, core_1.Inject(boot_1.ContextToken)), 
-        __metadata('design:paramtypes', [Object])
-    ], CarbonAuthService);
     return CarbonAuthService;
 }());
+CarbonAuthService = __decorate([
+    core_1.Injectable(),
+    __param(0, core_1.Inject(boot_1.ContextToken)),
+    __metadata("design:paramtypes", [Object])
+], CarbonAuthService);
 exports.CarbonAuthService = CarbonAuthService;
-
-//# sourceMappingURL=carbon-auth.service.js.map

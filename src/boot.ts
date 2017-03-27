@@ -2,7 +2,7 @@ import { OpaqueToken, Injector } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
-import Carbon from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 import * as Errors from "carbonldp/Errors";
@@ -11,7 +11,7 @@ import * as Token from "carbonldp/Auth/Token";
 
 export const AUTH_COOKIE:string = "carbon-token";
 
-let carbon:Carbon = null;
+let carbon:Carbon = new Carbon();
 
 
 /**
@@ -127,24 +127,28 @@ export {
 
 export const ContextToken = new OpaqueToken( "ContextToken" );
 
+export function aotCarbonFactory():Context {
+	return carbon;
+}
+export function aotActiveContextFnFactory():Context {
+	return activeContextFn();
+}
+export function aotAppContextFactory():App.Context {
+	if( ! activeContextFn.isAppContext() ) throw new Errors.IllegalStateError( "The activeContext is not an App Context" );
+	return <any>activeContextFn();
+}
+
 export const CARBON_PROVIDERS:any[] = [
 	{
 		provide: Carbon,
-		useFactory: ():Context => {
-			return carbon;
-		},
+		useFactory: aotCarbonFactory,
 	},
 	{
 		provide: ContextToken,
-		useFactory: ():Context => {
-			return activeContextFn();
-		},
+		useFactory: aotActiveContextFnFactory,
 	},
 	{
 		provide: App.Context,
-		useFactory: ():App.Context => {
-			if( ! activeContextFn.isAppContext() ) throw new Errors.IllegalStateError( "The activeContext is not an App Context" );
-			return <any>activeContextFn();
-		},
+		useFactory: aotAppContextFactory,
 	},
 ];

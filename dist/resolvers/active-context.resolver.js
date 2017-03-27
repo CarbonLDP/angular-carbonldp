@@ -29,12 +29,10 @@ var ActiveContextResolver = (function () {
             return false;
         });
     };
-    ActiveContextResolver = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], ActiveContextResolver);
     return ActiveContextResolver;
 }());
+ActiveContextResolver = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], ActiveContextResolver);
 exports.ActiveContextResolver = ActiveContextResolver;
-
-//# sourceMappingURL=active-context.resolver.js.map

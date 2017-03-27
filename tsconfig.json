@@ -5,14 +5,17 @@
 		"noImplicitAny": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
+		"lib": [ "es2015", "dom" ],
+		"outDir": "dist",
+		"declaration": true,
 		"moduleResolution": "node"
 	},
 	"exclude": [
 		"dist",
-		"node_modules",
-		"typings/browser",
-		"typings/browser.d.ts",
-		"typings/main",
-		"typings/main.d.ts"
-	]
+		"node_modules"
+	],
+	"angularCompilerOptions": {
+		"genDir": "compiled",
+		"skipTemplateCodegen": true
+	}
 }

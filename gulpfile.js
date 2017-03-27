@@ -1,21 +1,13 @@
 "use strict";
 
-const fs = require( "fs" );
 const del = require( "del" );
-
 const gulp = require( "gulp" );
-const util = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
-
+const jeditor = require( "gulp-json-editor" );
 const sourcemaps = require( "gulp-sourcemaps" );
 const ts = require( "gulp-typescript" );
-
 const dts = require( "dts-generator" );
-const glob = require( "glob" );
-const minimatch = require( "minimatch" );
-const jeditor = require( "gulp-json-editor" );
-
-const tslint = require( "gulp-tslint" );
+const exec = require( "child_process" ).exec;
 
 let config = {
 	source: {
@@ -35,7 +27,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:typescript", "prepare-npm-package" ],
+		[ "compile:typescript:aot", "build:prepare-npm-package" ],
 		done
 	);
 } );
@@ -50,38 +42,31 @@ gulp.task( "compile:typescript", () => {
 		.pipe( tsProject() );
 
 	tsResults.dts
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-	;
+		.pipe( gulp.dest( config.dist.tsOutput ) );
 
 	return tsResults.js
 		.pipe( sourcemaps.write( "." ) )
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-		;
+		.pipe( gulp.dest( config.dist.tsOutput ) );
+} );
+
+gulp.task( "compile:typescript:aot", function( cb ) {
+	exec( "node_modules/.bin/ngc -p tsconfig.json", function( err, stdout, stderr ) {
+		cb( err );
+	} );
 } );
 
 gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
 } );
 
-gulp.task( "lint", [ "lint:typescript" ] );
-
-gulp.task( "lint:typescript", () => {
-	return gulp.src( config.source.typescript )
-		.pipe( tslint( {
-			tslint: require( "tslint" )
-		} ) )
-		.pipe( tslint.report( "prose" ) )
-		;
-} );
-
-gulp.task( "prepare-npm-package", ( done ) => {
+gulp.task( "build:prepare-npm-package", ( done ) => {
 	runSequence(
-		[ "prepare-npm-package:copy-docs", "prepare-npm-package:copy-package-json" ],
+		[ "build:prepare-npm-package:copy:docs", "build:prepare-npm-package:copy:package-json" ],
 		done
 	);
 } );
 
-gulp.task( "prepare-npm-package:copy-docs", () => {
+gulp.task( "build:prepare-npm-package:copy:docs", () => {
 	return gulp.src( [
 		"README.md",
 		"CHANGELOG.md",
@@ -89,7 +74,7 @@ gulp.task( "prepare-npm-package:copy-docs", () => {
 	] ).pipe( gulp.dest( config.dist.tsOutput ) );
 } );
 
-gulp.task( "prepare-npm-package:copy-package-json", () => {
+gulp.task( "build:prepare-npm-package:copy:package-json", () => {
 	return gulp.src( "package.json" )
 		.pipe( jeditor( ( json ) => {
 			delete json.private;
@@ -106,13 +91,13 @@ gulp.task( "prepare-npm-package:copy-package-json", () => {
 
 gulp.task( "watch", ( done ) => {
 	runSequence(
-		[ "compile:styles", "compile:templates", "compile:typescript" ],
-		[ "watch:styles", "watch:templates", "watch:typescript" ],
+		[ "compile:typescript:aot" ],
+		[ "watch:typescript" ],
 		done
 	);
 } );
 
 gulp.task( "watch:typescript", () => {
-	return gulp.watch( config.source.typescript, [ "compile:typescript" ] );
+	return gulp.watch( config.source.typescript, [ "compile:typescript:aot" ] );
 } );
 

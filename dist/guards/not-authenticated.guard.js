@@ -19,8 +19,9 @@ var abstract_authentication_guard_1 = require("./abstract-authentication.guard")
 var NotAuthenticatedGuard = (function (_super) {
     __extends(NotAuthenticatedGuard, _super);
     function NotAuthenticatedGuard(router) {
-        _super.call(this, router);
-        this.router = router;
+        var _this = _super.call(this, router) || this;
+        _this.router = router;
+        return _this;
     }
     NotAuthenticatedGuard.prototype.canActivate = function (route, state) {
         var _this = this;
@@ -37,12 +38,10 @@ var NotAuthenticatedGuard = (function (_super) {
             return _this.onError(route, state);
         });
     };
-    NotAuthenticatedGuard = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], NotAuthenticatedGuard);
     return NotAuthenticatedGuard;
 }(abstract_authentication_guard_1.AbstractAuthenticationGuard));
+NotAuthenticatedGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], NotAuthenticatedGuard);
 exports.NotAuthenticatedGuard = NotAuthenticatedGuard;
-
-//# sourceMappingURL=not-authenticated.guard.js.map

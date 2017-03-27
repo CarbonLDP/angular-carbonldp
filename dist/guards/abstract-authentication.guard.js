@@ -47,12 +47,10 @@ var AbstractAuthenticationGuard = (function () {
         }
         return false;
     };
-    AbstractAuthenticationGuard = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], AbstractAuthenticationGuard);
     return AbstractAuthenticationGuard;
 }());
+AbstractAuthenticationGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], AbstractAuthenticationGuard);
 exports.AbstractAuthenticationGuard = AbstractAuthenticationGuard;
-
-//# sourceMappingURL=abstract-authentication.guard.js.map
