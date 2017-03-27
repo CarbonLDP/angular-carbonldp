@@ -1,3 +1,9 @@
+## 0.5.0 (2017/03/27)
+
+- Make the library AoT compliant
+- Update `carbonldp` package to `^0.42.0` (latest AoT compatible version)
+- Update `@angular` packages to latest 2+ stable release (`2.4.9`)
+
 ## 0.4.2 (2017/02/23)
 
 - Update `carbonldp` package to `^0.40.0` (latest semi-stable version)
