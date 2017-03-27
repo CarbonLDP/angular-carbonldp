@@ -2,7 +2,7 @@ import { OpaqueToken, Injector } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 import * as Errors from "carbonldp/Errors";
