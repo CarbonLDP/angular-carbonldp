@@ -1,3 +1,4 @@
+test
 ## 0.3.0 (2016/08/15)
 - Update `angular2` to RC5
 
