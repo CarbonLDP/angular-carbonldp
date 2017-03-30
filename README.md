@@ -1,17 +1,17 @@
-# angular2-carbonldp
+# angular-carbonldp
 
-[![npm version](https://badge.fury.io/js/angular2-carbonldp.svg)](https://badge.fury.io/js/angular2-carbonldp)
+[![npm version](https://badge.fury.io/js/angular-carbonldp.svg)](https://badge.fury.io/js/angular-carbonldp)
 
-[![Build Status](https://travis-ci.org/CarbonLDP/angular2-carbonldp.svg)](https://travis-ci.org/CarbonLDP/angular2-carbonldp)
+[![Build Status](https://travis-ci.org/CarbonLDP/angular-carbonldp.svg)](https://travis-ci.org/CarbonLDP/angular-carbonldp)
 
-Helping classes that simplify the integration between [Angular2](https://angular.io/) and [CarbonLDP](https://carbonldp.com/)
+Helping classes that simplify the integration between [Angular](https://angular.io/) and [CarbonLDP](https://carbonldp.com/)
 
 ## Installation
 
 Install through [npm](https://www.npmjs.com/) using the following command:
 
 ```bash
-npm install angular2-carbonldp
+npm install angular-carbonldp
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ To use this library, you have to follow three steps:
 
 ### 1. Initialization
 
-In the bootstrapping file of your Angular2 application (commonly main.ts),
+In the bootstrapping file of your Angular application (commonly main.ts),
 you need to initialize the active Carbon's context you are going to use across your application.
 The contexts with which you can initialize your Carbon instance can be the following:
  - App Context
@@ -39,7 +39,7 @@ import { NgModuleRef } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
 import { CARBON_PROTOCOL, CARBON_DOMAIN, DEBUG } from "app/config";
-import { appInjector, activeContext } from "angular2-carbonldp/boot";
+import { appInjector, activeContext } from "angular-carbonldp/boot";
 
 import { Class as Carbon } from "carbonldp/Carbon";
 import { AppModule } from "app/app.module";
@@ -78,8 +78,8 @@ To do this, the provision needs to be as follows:
  import { BrowserModule } from "@angular/platform-browser";
  
  // Providers
- import { CARBON_PROVIDERS } from "angular2-carbonldp/boot";
- import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
+ import { CARBON_PROVIDERS } from "angular-carbonldp/boot";
+ import { CARBON_SERVICES_PROVIDERS } from "angular-carbonldp/services";
  
  // Components
  import { AppComponent } from "./app.component";
@@ -113,8 +113,8 @@ import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 
-import { ContextToken } from "angular2-carbonldp/boot";
-import { AuthService } from "angular2-carbonldp/services";
+import { ContextToken } from "angular-carbonldp/boot";
+import { AuthService } from "angular-carbonldp/services";
 
 // The main carbon Context
 constructor( private carbon:Carbon ) {}
@@ -149,7 +149,7 @@ It needs a route to redirect the user to in case an error occurs configured in t
 ```typescript
 import { Routes } from "@angular/router";
 // Resolvers
-import { ActiveContextResolver } from "angular2-carbonldp/resolvers";
+import { ActiveContextResolver } from "angular-carbonldp/resolvers";
 
 const appRoutes:Routes = [
 	...
@@ -181,7 +181,7 @@ Guard that will prevent the route from being activated when the user hasn't auth
 ```typescript
 import { Routes } from "@angular/router";
 // Guards
-import { AuthenticatedGuard } from "angular2-carbonldp/guards";
+import { AuthenticatedGuard } from "angular-carbonldp/guards";
 
 const appRoutes:Routes = [
 	...
@@ -204,7 +204,7 @@ Guard that will prevent the route from being activated when the user is already 
 ```typescript
 import { Routes } from "@angular/router";
 // Guards
-import { NotAuthenticatedGuard } from "angular2-carbonldp/guards";
+import { NotAuthenticatedGuard } from "angular-carbonldp/guards";
 
 const appRoutes:Routes = [
 	...

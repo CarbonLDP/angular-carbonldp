@@ -1,14 +1,14 @@
 {
-  "name": "angular2-carbonldp",
-  "version": "0.6.0",
-  "description": "Helping classes to use Angular2 with CarbonLDP",
+  "name": "angular-carbonldp",
+  "version": "0.7.0",
+  "description": "Helping classes to use Angular with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
   ],
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CarbonLDP/angular2-carbonldp.git"
+    "url": "https://github.com/CarbonLDP/angular-carbonldp.git"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
