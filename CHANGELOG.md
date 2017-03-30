@@ -1,3 +1,7 @@
+## 0.6.0 (2017/03/30)
+
+- Completed #14 - Change peer dependencies so they allow any `@angular` 2.x version
+
 ## 0.5.0 (2017/03/27)
 
 - Make the library AoT compliant
