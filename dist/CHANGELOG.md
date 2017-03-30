@@ -1,3 +1,7 @@
+## 0.8.0 (2017/03/30)
+
+- Remove `reflect-metadata` as dependency as it is not used anymore
+
 ## 0.7.0 (2017/03/30)
 
 #### Breaking changes

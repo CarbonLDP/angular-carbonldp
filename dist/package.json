@@ -1,6 +1,6 @@
 {
   "name": "angular-carbonldp",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Helping classes to use Angular with CarbonLDP",
   "contributors": [
     "MiguelAraCo <miguel.aragon@base22.com>"
