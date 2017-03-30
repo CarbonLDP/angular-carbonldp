@@ -41,7 +41,7 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { CARBON_PROTOCOL, CARBON_DOMAIN, DEBUG } from "app/config";
 import { appInjector, activeContext } from "angular2-carbonldp/boot";
 
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import { AppModule } from "app/app.module";
 
 let carbon:Carbon = new Carbon();
@@ -109,7 +109,7 @@ After initializing the context and registering the providers, the following obje
 ```typescript
 import { Inject } from "@angular/core";
 
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 
