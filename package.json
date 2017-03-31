@@ -20,12 +20,12 @@
     "js-cookie": "^2.1.1"
   },
   "devDependencies": {
-    "@angular/common": "^2.4.9",
-    "@angular/compiler": "^2.4.9",
-    "@angular/compiler-cli": "^2.4.9",
-    "@angular/core": "^2.4.9",
-    "@angular/platform-browser": "^2.4.9",
-    "@angular/router": "^3.4.9",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/router": "^4.0.0",
     "@types/js-cookie": "^2.0.28",
     "@types/node": "^7.0.5",
     "carbonldp": "^0.42.0",
@@ -41,9 +41,9 @@
     "zone.js": "^0.7.7"
   },
   "peerDependencies": {
-    "@angular/common": "^2.0.0",
-    "@angular/core": "^2.0.0",
-    "@angular/router": "^3.0.0",
+    "@angular/common": "2.x||4.x",
+    "@angular/core": "2.x||4.x",
+    "@angular/router": "3.x||4.x",
     "carbonldp": "^0.42.0",
     "rxjs": "^5.2.0"
   },
