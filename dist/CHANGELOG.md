@@ -1,3 +1,7 @@
+## 0.9.0 (2017/03/30)
+
+- Update supported `@angular` packages to include 4.x
+
 ## 0.8.0 (2017/03/30)
 
 - Remove `reflect-metadata` as dependency as it is not used anymore
