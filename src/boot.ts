@@ -1,9 +1,8 @@
-import { OpaqueToken, Injector } from "@angular/core";
+import { Injector } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
 import { Class as Carbon } from "carbonldp/Carbon";
-import * as App from "carbonldp/App";
 import Context from "carbonldp/Context";
 import * as Errors from "carbonldp/Errors";
 import * as HTTP from "carbonldp/HTTP";
@@ -57,14 +56,14 @@ function authenticationCookieIsPresent():boolean {
 	return typeof Cookies.get( AUTH_COOKIE ) !== "undefined";
 }
 
-function authenticateWithCookie( context:Context ):Promise<any> {
+function authenticateWithCookie( carbon:Carbon ):Promise<any> {
 	let token:Token.Class;
 	try {
 		token = Cookies.getJSON( AUTH_COOKIE );
 	} catch( error ) {
 		return Promise.reject( error );
 	}
-	return context.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {
+	return carbon.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {
 		if( error instanceof Errors.IllegalArgumentError || error instanceof HTTP.Errors.UnauthorizedError ) {
 			// Invalid token
 			Cookies.remove( AUTH_COOKIE );
@@ -72,83 +71,43 @@ function authenticateWithCookie( context:Context ):Promise<any> {
 	} );
 }
 
-export interface ActiveContextFn {
+export interface CarbonProviderFn {
 	():Context;
 	promise?:Promise<void>;
-	initialize?:( carbon:Carbon, appSlug?:string ) => Promise<void>;
-	isAppContext?:() => boolean;
+	initialize?:( carbon:Carbon ) => Promise<void>;
 }
 
-const activeContextFn:ActiveContextFn = (():ActiveContextFn => {
-	let _activeContext:Context = null;
-	let _isAppContext:boolean = false;
+const carbonProviderFn:CarbonProviderFn = (():CarbonProviderFn => {
+	let _carbonProvider:Carbon = null;
 
-	let activeContextFn:ActiveContextFn = ():Context => {
-		return _activeContext;
+	let carbonProviderFn:CarbonProviderFn = ():Carbon => {
+		return _carbonProvider;
 	};
-	activeContextFn.promise = Promise.resolve();
-	activeContextFn.initialize = ( configuredCarbon:Carbon = new Carbon(), appSlug:string = null ):Promise<void> => {
-		carbon = configuredCarbon;
-
-		let contextPromise:Promise<void> = null;
-		if( appSlug === null ) {
-			_activeContext = carbon;
-
-			contextPromise = activeContextFn.promise;
-		} else {
-			_isAppContext = true;
-
-			contextPromise = carbon.apps.getContext( appSlug ).then( ( context:Context ) => {
-				_activeContext = context;
-			} ).catch( ( error ) => {
-				console.error( "Couldn't initialize carbon's app context" );
-				console.error( error );
-				return Promise.reject( error );
-			} );
-		}
-
-		activeContextFn.promise = contextPromise.then( () => {
+	carbonProviderFn.promise = Promise.resolve();
+	carbonProviderFn.initialize = ( configuredCarbon:Carbon = new Carbon() ):Promise<void> => {
+		_carbonProvider = carbon = configuredCarbon;
+		carbonProviderFn.promise.then( () => {
 			if( authenticationCookieIsPresent() ) {
-				return authenticateWithCookie( _activeContext );
+				return authenticateWithCookie( carbon );
 			}
 		} );
-		return activeContextFn.promise;
-	};
-	activeContextFn.isAppContext = ():boolean => {
-		return _isAppContext;
+		return carbonProviderFn.promise;
 	};
 
-	return activeContextFn;
+	return carbonProviderFn;
 })();
 
 export {
-	activeContextFn as activeContext
+	carbonProviderFn as carbonProvider
 };
-
-export const ContextToken = new OpaqueToken( "ContextToken" );
 
 export function aotCarbonFactory():Context {
 	return carbon;
-}
-export function aotActiveContextFnFactory():Context {
-	return activeContextFn();
-}
-export function aotAppContextFactory():App.Context {
-	if( ! activeContextFn.isAppContext() ) throw new Errors.IllegalStateError( "The activeContext is not an App Context" );
-	return <any>activeContextFn();
 }
 
 export const CARBON_PROVIDERS:any[] = [
 	{
 		provide: Carbon,
 		useFactory: aotCarbonFactory,
-	},
-	{
-		provide: ContextToken,
-		useFactory: aotActiveContextFnFactory,
-	},
-	{
-		provide: App.Context,
-		useFactory: aotAppContextFactory,
 	},
 ];
