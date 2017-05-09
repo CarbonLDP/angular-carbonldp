@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from "@angular/router";
 
-import { inject, activeContext } from "./../boot";
+import { inject, carbonProvider } from "./../boot";
 import { AuthService } from "./../services";
 
 @Injectable()
@@ -11,9 +11,9 @@ export abstract class AbstractAuthenticationGuard implements CanActivate {
 	constructor( protected router:Router ) {}
 
 	canActivate( route:ActivatedRouteSnapshot, state:RouterStateSnapshot ):Promise<boolean> {
-		return activeContext.promise.then( () => {
+		return carbonProvider.promise.then( () => {
 			// AuthService needs to be injected here so we don't cause a premature initialization of AuthService
-			// If AuthService is injected in the constructor, the activeContext won't be ready and will cause an error
+			// If AuthService is injected in the constructor, the carbonProvider won't be ready and will cause an error
 			return inject( AuthService.Token );
 		} ).then( ( authService:any ) => {
 			this.authService = authService;
