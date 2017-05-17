@@ -10,7 +10,7 @@ import * as Token from "carbonldp/Auth/Token";
 
 export const AUTH_COOKIE:string = "carbon-token";
 
-let carbon:Carbon = new Carbon();
+let carbon:Carbon = new Carbon( "example.com" );
 
 
 /**
@@ -84,7 +84,7 @@ const carbonProviderFn:CarbonProviderFn = (():CarbonProviderFn => {
 		return _carbonProvider;
 	};
 	carbonProviderFn.promise = Promise.resolve();
-	carbonProviderFn.initialize = ( configuredCarbon:Carbon = new Carbon() ):Promise<void> => {
+	carbonProviderFn.initialize = ( configuredCarbon:Carbon = new Carbon( "example.com" ) ):Promise<void> => {
 		_carbonProvider = carbon = configuredCarbon;
 		carbonProviderFn.promise.then( () => {
 			if( authenticationCookieIsPresent() ) {
