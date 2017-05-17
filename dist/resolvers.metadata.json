@@ -1,1 +1,1 @@
-[{"__symbolic":"module","version":3,"metadata":{},"exports":[{"from":"./resolvers/active-context.resolver"}]},{"__symbolic":"module","version":1,"metadata":{},"exports":[{"from":"./resolvers/active-context.resolver"}]}]
+[{"__symbolic":"module","version":3,"metadata":{},"exports":[{"from":"./resolvers/carbon-provider.resolver"}]},{"__symbolic":"module","version":1,"metadata":{},"exports":[{"from":"./resolvers/carbon-provider.resolver"}]}]

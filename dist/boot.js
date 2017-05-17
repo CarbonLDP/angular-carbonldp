@@ -1,12 +1,11 @@
 "use strict";
-var core_1 = require("@angular/core");
+Object.defineProperty(exports, "__esModule", { value: true });
 var Cookies = require("js-cookie");
 var Carbon_1 = require("carbonldp/Carbon");
-var App = require("carbonldp/App");
 var Errors = require("carbonldp/Errors");
 var HTTP = require("carbonldp/HTTP");
 exports.AUTH_COOKIE = "carbon-token";
-var carbon = new Carbon_1.Class();
+var carbon = new Carbon_1.Class("example.com");
 /**
  * Function that holds the app's injector. To initialize it, call it passing appRef.injector as a parameter.
  * After that, you can import the function and execute it to receive the same injector.
@@ -41,7 +40,7 @@ exports.inject = inject;
 function authenticationCookieIsPresent() {
     return typeof Cookies.get(exports.AUTH_COOKIE) !== "undefined";
 }
-function authenticateWithCookie(context) {
+function authenticateWithCookie(carbon) {
     var token;
     try {
         token = Cookies.getJSON(exports.AUTH_COOKIE);
@@ -49,7 +48,7 @@ function authenticateWithCookie(context) {
     catch (error) {
         return Promise.reject(error);
     }
-    return context.auth.authenticateUsing("TOKEN", token).catch(function (error) {
+    return carbon.auth.authenticateUsing("TOKEN", token).catch(function (error) {
         if (error instanceof Errors.IllegalArgumentError || error instanceof HTTP.Errors.UnauthorizedError) {
             // Invalid token
             Cookies.remove(exports.AUTH_COOKIE);
@@ -58,71 +57,32 @@ function authenticateWithCookie(context) {
             return Promise.reject(error);
     });
 }
-var activeContextFn = (function () {
-    var _activeContext = null;
-    var _isAppContext = false;
-    var activeContextFn = function () {
-        return _activeContext;
+var carbonProviderFn = (function () {
+    var _carbonProvider = null;
+    var carbonProviderFn = function () {
+        return _carbonProvider;
     };
-    activeContextFn.promise = Promise.resolve();
-    activeContextFn.initialize = function (configuredCarbon, appSlug) {
-        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.Class(); }
-        if (appSlug === void 0) { appSlug = null; }
-        carbon = configuredCarbon;
-        var contextPromise = null;
-        if (appSlug === null) {
-            _activeContext = carbon;
-            contextPromise = activeContextFn.promise;
-        }
-        else {
-            _isAppContext = true;
-            contextPromise = carbon.apps.getContext(appSlug).then(function (context) {
-                _activeContext = context;
-            }).catch(function (error) {
-                console.error("Couldn't initialize carbon's app context");
-                console.error(error);
-                return Promise.reject(error);
-            });
-        }
-        activeContextFn.promise = contextPromise.then(function () {
+    carbonProviderFn.promise = Promise.resolve();
+    carbonProviderFn.initialize = function (configuredCarbon) {
+        if (configuredCarbon === void 0) { configuredCarbon = new Carbon_1.Class("example.com"); }
+        _carbonProvider = carbon = configuredCarbon;
+        carbonProviderFn.promise.then(function () {
             if (authenticationCookieIsPresent()) {
-                return authenticateWithCookie(_activeContext);
+                return authenticateWithCookie(carbon);
             }
         });
-        return activeContextFn.promise;
+        return carbonProviderFn.promise;
     };
-    activeContextFn.isAppContext = function () {
-        return _isAppContext;
-    };
-    return activeContextFn;
+    return carbonProviderFn;
 })();
-exports.activeContext = activeContextFn;
-exports.ContextToken = new core_1.OpaqueToken("ContextToken");
+exports.carbonProvider = carbonProviderFn;
 function aotCarbonFactory() {
     return carbon;
 }
 exports.aotCarbonFactory = aotCarbonFactory;
-function aotActiveContextFnFactory() {
-    return activeContextFn();
-}
-exports.aotActiveContextFnFactory = aotActiveContextFnFactory;
-function aotAppContextFactory() {
-    if (!activeContextFn.isAppContext())
-        throw new Errors.IllegalStateError("The activeContext is not an App Context");
-    return activeContextFn();
-}
-exports.aotAppContextFactory = aotAppContextFactory;
 exports.CARBON_PROVIDERS = [
     {
         provide: Carbon_1.Class,
         useFactory: aotCarbonFactory,
-    },
-    {
-        provide: exports.ContextToken,
-        useFactory: aotActiveContextFnFactory,
-    },
-    {
-        provide: App.Context,
-        useFactory: aotAppContextFactory,
     },
 ];

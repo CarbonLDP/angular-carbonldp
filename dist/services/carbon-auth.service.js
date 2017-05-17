@@ -1,12 +1,13 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Cookies = require("js-cookie");
-var Agent = require("carbonldp/Auth/Agent");
+var Carbon_1 = require("carbonldp/Carbon");
 var boot_1 = require("./../boot");
 var CarbonAuthService = (function () {
-    function CarbonAuthService(context) {
+    function CarbonAuthService(carbon) {
         var _this = this;
-        this.context = context;
+        this.carbon = carbon;
         this._loggedInEmitter = new core_1.EventEmitter();
         this._loggedOutEmitter = new core_1.EventEmitter();
         this._authChangedEmitter = new core_1.EventEmitter();
@@ -32,11 +33,11 @@ var CarbonAuthService = (function () {
     });
     ;
     CarbonAuthService.prototype.isAuthenticated = function () {
-        return this.context.auth.isAuthenticated();
+        return this.carbon.auth.isAuthenticated();
     };
     CarbonAuthService.prototype.login = function (username, password, rememberMe) {
         var _this = this;
-        return this.context.auth.authenticate(username, password).then(function (credentials) {
+        return this.carbon.auth.authenticate(username, password).then(function (credentials) {
             if (rememberMe)
                 Cookies.set(boot_1.AUTH_COOKIE, JSON.stringify({
                     expirationTime: credentials.expirationTime,
@@ -48,12 +49,15 @@ var CarbonAuthService = (function () {
     };
     CarbonAuthService.prototype.logout = function () {
         Cookies.remove(boot_1.AUTH_COOKIE);
-        this.context.auth.clearAuthentication();
+        this.carbon.auth.clearAuthentication();
         this.loggedOutEmitter.emit(null);
     };
-    CarbonAuthService.prototype.register = function (name, username, password, slug) {
-        var agent = Agent.Factory.create(name, username, password);
-        return this.context.auth.agents.register(agent, slug);
+    CarbonAuthService.prototype.register = function (name, username, password, enabled) {
+        return this.carbon.auth.users.register(username, password, enabled).then(function (_a) {
+            var persistedUser = _a[0], response = _a[1];
+            persistedUser.name = name;
+            return persistedUser.saveAndRefresh();
+        });
     };
     return CarbonAuthService;
 }());
@@ -62,6 +66,6 @@ CarbonAuthService.decorators = [
 ];
 /** @nocollapse */
 CarbonAuthService.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: core_1.Inject, args: [boot_1.ContextToken,] },] },
+    { type: Carbon_1.Class, },
 ]; };
 exports.CarbonAuthService = CarbonAuthService;
