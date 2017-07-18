@@ -45,7 +45,7 @@
     "@angular/common": "2.x||4.x",
     "@angular/core": "2.x||4.x",
     "@angular/router": "3.x||4.x",
-    "carbonldp": "^0.42.0",
+    "carbonldp": "^1.0.0-alpha.1",
     "rxjs": "^5.2.0"
   },
   "private": true
