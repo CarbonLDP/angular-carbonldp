@@ -24,32 +24,27 @@ To use this library, you have to follow three steps:
 ### 1. Initialization
 
 In the bootstrapping file of your Angular application (commonly main.ts),
-you need to initialize the active Carbon's context you are going to use across your application.
-The contexts with which you can initialize your Carbon instance can be the following:
- - App Context
- - Platform Context
+you need to initialize the active Carbon Platform you are going to use across your application.
+
 
 #### App Context
 
-If your application is going to use only one App Context (which is normally the case),
-the initialization needs to be as follows:
+The initialization needs to be as follows:
 
 ```typescript
 import { NgModuleRef } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
-import { CARBON_PROTOCOL, CARBON_DOMAIN, DEBUG } from "app/config";
-import { appInjector, activeContext } from "angular-carbonldp/boot";
+import { CARBON_PROTOCOL, CARBON_HOST, DEBUG } from "app/config";
+import { appInjector, carbonProvider } from "angular-carbonldp/boot";
 
 import { Class as Carbon } from "carbonldp/Carbon";
 import { AppModule } from "app/app.module";
 
-let carbon:Carbon = new Carbon();
-// Here you can configure this instance of carbon (setSetting, extendObjectSchema, etc.)
-// e.g: carbon.setSetting( "domain", CARBON_DOMAIN );
+let carbon:Carbon = new Carbon( CARBON_HOST, CARBON_PROTOCOL === "https" );
 
-// Initialize carbon with you application context
-activeContext.initialize( carbon, "your-app-slug/" );
+// Initialize carbon
+carbonProvider.initialize( carbon );
 
 platformBrowserDynamic().bootstrapModule( AppModule ).then( ( appRef:NgModuleRef<AppModule> ) => {
 	// Don't forget this line! It gives guards access to DI
@@ -59,18 +54,9 @@ platformBrowserDynamic().bootstrapModule( AppModule ).then( ( appRef:NgModuleRef
 } );
 ```
 
-#### Platform Context
-
-If instead, your web application is going to work with several Carbon App Contexts
-(an Advanced use), the initialization would be exactly the same but without providing an app slug:
-
-```typescript
-activeContext.initialize( carbon );
-```
-
 ### 2. Provision
 
-After the **initialization** of your contexts, you can now proceed to [provide to your main module](https://angular.io/docs/ts/latest/guide/dependency-injection.html#!#sts=Registering%20providers%20in%20an%20NgModule) the generated contexts.
+After the **initialization** of your Carbon, you can now proceed to [provide to your main module](https://angular.io/docs/ts/latest/guide/dependency-injection.html#!#sts=Registering%20providers%20in%20an%20NgModule) the Carbon instance.
 To do this, the provision needs to be as follows:
  
  ```typescript
@@ -93,7 +79,7 @@ To do this, the provision needs to be as follows:
  		AppComponent
  	],
  	providers: [
- 		CARBON_PROVIDERS,            // <-- This provides the contexts (App or Platform) to your app 
+ 		CARBON_PROVIDERS,            // <-- This provides the Carbon instace to your app
  		CARBON_SERVICES_PROVIDERS,   // <-- This provides the Carbon authentication services to your app
  	],
  	bootstrap: [ AppComponent ],
@@ -119,12 +105,6 @@ import { AuthService } from "angular-carbonldp/services";
 // The main carbon Context
 constructor( private carbon:Carbon ) {}
 
-// The App Context (only if you initialized the active context with an app slug!)
-constructor( private appContext:App.Context ) {}
-
-// The active context (either carbon or an app context, depending on your initialization).
-constructor( @Inject( ContextToken ) private context:Context ) {}
-
 // A basic AuthService that handles cookie based sessions
 constructor( @Inject( AuthService.Token ) private authService:AuthService.Class ) {}
 ```
@@ -141,11 +121,11 @@ But if you want to use Carbon inside the routes of your app, let's say to allow 
 [Resolvers](https://angular.io/docs/ts/latest/guide/router.html#!#resolve-guard) help you to assure that a desired data will be available before rendering a routed component.
 This library provides you the following resolver:
 
-##### ActiveContextResolver
+##### CarbonProviderResolver
 
-Resolver that will make sure the Carbon active context is resolved before activating the route.
+Resolver that will make sure that Carbon is resolved before activating the route.
 
-It needs a route to redirect the user to in case an error occurs configured in the route `data.onError` property.
+It needs a route to redirect the user to in case any errors occur.
 ```typescript
 import { Routes } from "@angular/router";
 // Resolvers
@@ -160,8 +140,12 @@ const appRoutes:Routes = [
             activeContext: ActiveContextResolver
         },
         data: {
-            onError: [ "/error" ],
+            onError: [ "/error" ],  // <-- The name of the page to redirect to
         }
+	},
+	{
+		path: "error",
+		component: ErrorView,
 	},
 	...
 ];
