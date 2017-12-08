@@ -59,8 +59,8 @@ function authenticationCookieIsPresent():boolean {
 function authenticateWithCookie( carbon:Carbon ):Promise<any> {
 	let token:Token.Class;
 	try {
-		token = Cookies.getJSON( AUTH_COOKIE );
-	} catch( error ) {
+		token = <any>Cookies.getJSON( AUTH_COOKIE );
+	} catch ( error ) {
 		return Promise.reject( error );
 	}
 	return carbon.auth.authenticateUsing( "TOKEN", token ).catch( ( error ) => {
@@ -85,8 +85,9 @@ const carbonProviderFn:CarbonProviderFn = (():CarbonProviderFn => {
 	};
 	carbonProviderFn.promise = Promise.resolve();
 	carbonProviderFn.initialize = ( configuredCarbon:Carbon = new Carbon( "example.com" ) ):Promise<void> => {
-		_carbonProvider = carbon = configuredCarbon;
-		carbonProviderFn.promise.then( () => {
+		carbon = configuredCarbon;
+		_carbonProvider = carbon;
+		carbonProviderFn.promise = carbonProviderFn.promise.then( () => {
 			if( authenticationCookieIsPresent() ) {
 				return authenticateWithCookie( carbon );
 			}

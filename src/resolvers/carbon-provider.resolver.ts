@@ -3,15 +3,15 @@ import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { Router, Resolve, ActivatedRouteSnapshot } from "@angular/router";
 
-import { Class as Carbon } from "carbonldp/Carbon";
+import Context from "carbonldp/Context";
 
 import { carbonProvider } from "./../boot";
 
 @Injectable()
-export class CarbonProviderResolver implements Resolve<Carbon> {
+export class CarbonProviderResolver implements Resolve<boolean | Context> {
 	constructor( protected router:Router ) {}
 
-	resolve( route:ActivatedRouteSnapshot ):Observable<Carbon> | Promise<Carbon> | Carbon {
+	resolve( route:ActivatedRouteSnapshot ):Observable<Context | boolean> | Promise<Context | boolean> | Context | boolean {
 		return carbonProvider.promise.then( () => {
 			return carbonProvider();
 		} ).catch( ( error ) => {
