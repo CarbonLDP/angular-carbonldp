@@ -1,4 +1,4 @@
-import { OpaqueToken, EventEmitter } from "@angular/core";
+import { InjectionToken, EventEmitter } from "@angular/core";
 
 export interface Class {
 	loggedInEmitter:EventEmitter<any>;
@@ -15,4 +15,4 @@ export interface Class {
 	register( name:string, username:string, password:string, enabled:boolean ):Promise<any>;
 }
 
-export const Token = new OpaqueToken( "AuthService" );
+export const Token = new InjectionToken( "AuthService" );
