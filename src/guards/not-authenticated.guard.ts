@@ -11,10 +11,9 @@ export class NotAuthenticatedGuard extends AbstractAuthenticationGuard {
 
 	canActivate( route:ActivatedRouteSnapshot, state:RouterStateSnapshot ):Promise<boolean> {
 		return super.canActivate( route, state ).then( ( canActivate:boolean ) => {
-			if( canActivate ) {
-				if( ! this.authService.isAuthenticated() ) return true;
-				else return this.onReject( route, state );
-			} else return false;
+			if( ! canActivate ) return false;
+			if( ! this.authService.isAuthenticated() ) return true;
+			else return this.onReject( route, state );
 		} ).catch( () => {
 			return this.onError( route, state );
 		} );
