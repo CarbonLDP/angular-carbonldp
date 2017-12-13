@@ -84,7 +84,7 @@ const carbonProviderFn:CarbonProviderFn = (():CarbonProviderFn => {
 		return _carbonProvider;
 	};
 	carbonProviderFn.promise = Promise.resolve();
-	carbonProviderFn.initialize = ( configuredCarbon:Carbon = new Carbon( "example.com" ) ):Promise<void> => {
+	carbonProviderFn.initialize = ( configuredCarbon:Carbon ):Promise<void> => {
 		carbon = configuredCarbon;
 		_carbonProvider = carbon;
 		carbonProviderFn.promise = carbonProviderFn.promise.then( () => {

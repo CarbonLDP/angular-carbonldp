@@ -39,13 +39,13 @@ export class CarbonAuthService implements AuthService.Class {
 	}
 
 	login( username:string, password:string, rememberMe:boolean ):Promise<any> {
-		return this.carbon.auth.authenticate( username, password ).then( ( credentials:Token.Class ) => {
+		return this.carbon.auth.authenticate( username, password ).then( ( token:Token.Class ) => {
 			if( rememberMe ) Cookies.set( AUTH_COOKIE, JSON.stringify( {
-				expirationTime: credentials.expirationTime,
-				key: credentials.key
+				expirationTime: token.expirationTime,
+				key: token.key
 			} ) );
 			this.loggedInEmitter.emit( null );
-			return credentials;
+			return token;
 		} );
 	}
 
