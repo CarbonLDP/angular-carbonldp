@@ -1,4 +1,4 @@
-# angular-carbonldp
+# DEPRECATED: angular-carbonldp
 
 [![npm version](https://badge.fury.io/js/angular-carbonldp.svg)](https://badge.fury.io/js/angular-carbonldp)
 
