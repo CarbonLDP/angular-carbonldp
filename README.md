@@ -2,6 +2,8 @@
 
 **This project has been deprecated and will no longer be maintained. But, you can still use it as inspiration on how to integrate CarbonLDP with Angular.**
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](https://carbonldp.com)
+
 [![npm version](https://badge.fury.io/js/angular-carbonldp.svg)](https://badge.fury.io/js/angular-carbonldp)
 
 [![Build Status](https://travis-ci.org/CarbonLDP/angular-carbonldp.svg)](https://travis-ci.org/CarbonLDP/angular-carbonldp)
