@@ -1,1 +1,1 @@
-export * from "./resolvers/active-context.resolver";
+export * from "./resolvers/carbon-provider.resolver";

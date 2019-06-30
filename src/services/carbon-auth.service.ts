@@ -1,12 +1,13 @@
-import { Injectable, Inject, EventEmitter } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
 import * as Cookies from "js-cookie";
 
-import * as Agent from "carbonldp/Auth/Agent";
-import Context from "carbonldp/Context";
+import * as HTTP from "carbonldp/HTTP";
+import * as PersistedUser from "carbonldp/Auth/PersistedUser";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as Token from "carbonldp/Auth/Token";
 
-import { AUTH_COOKIE, ContextToken } from "./../boot";
+import { AUTH_COOKIE } from "./../boot";
 
 import * as AuthService from "./auth.service";
 
@@ -15,7 +16,7 @@ export class CarbonAuthService implements AuthService.Class {
 	private _loggedInEmitter:EventEmitter<any>;
 	private _loggedOutEmitter:EventEmitter<any>;
 	private _authChangedEmitter:EventEmitter<any>;
-	private context:Context;
+	private carbon:Carbon;
 
 	get loggedInEmitter():EventEmitter<any> { return this._loggedInEmitter };
 
@@ -23,8 +24,8 @@ export class CarbonAuthService implements AuthService.Class {
 
 	get authChangedEmitter():EventEmitter<any> { return this._authChangedEmitter };
 
-	constructor( @Inject( ContextToken ) context:Context ) {
-		this.context = context;
+	constructor( carbon:Carbon ) {
+		this.carbon = carbon;
 		this._loggedInEmitter = new EventEmitter<any>();
 		this._loggedOutEmitter = new EventEmitter<any>();
 		this._authChangedEmitter = new EventEmitter<any>();
@@ -34,11 +35,11 @@ export class CarbonAuthService implements AuthService.Class {
 	}
 
 	isAuthenticated():boolean {
-		return this.context.auth.isAuthenticated();
+		return this.carbon.auth.isAuthenticated();
 	}
 
 	login( username:string, password:string, rememberMe:boolean ):Promise<any> {
-		return this.context.auth.authenticate( username, password ).then( ( credentials:Token.Class ) => {
+		return this.carbon.auth.authenticate( username, password ).then( ( credentials:Token.Class ) => {
 			if( rememberMe ) Cookies.set( AUTH_COOKIE, JSON.stringify( {
 				expirationTime: credentials.expirationTime,
 				key: credentials.key
@@ -50,14 +51,16 @@ export class CarbonAuthService implements AuthService.Class {
 
 	logout():void {
 		Cookies.remove( AUTH_COOKIE );
-		this.context.auth.clearAuthentication();
+		this.carbon.auth.clearAuthentication();
 		this.loggedOutEmitter.emit( null );
 	}
 
 	register( name:string, username:string, password:string ):Promise<any>;
-	register( name:string, username:string, password:string, slug:string ):Promise<any>;
-	register( name:string, username:string, password:string, slug?:string ):Promise<any> {
-		let agent:Agent.Class = Agent.Factory.create( name, username, password );
-		return this.context.auth.agents.register( agent, slug );
+	register( name:string, username:string, password:string, enabled:boolean ):Promise<any>;
+	register( name:string, username:string, password:string, enabled?:boolean ):Promise<any> {
+		return this.carbon.auth.users.register( username, password, enabled ).then( ( [ persistedUser, response ]:[ PersistedUser.Class, HTTP.Response.Class[] ] ) => {
+			persistedUser.name = name;
+			return persistedUser.saveAndRefresh();
+		} );
 	}
 }

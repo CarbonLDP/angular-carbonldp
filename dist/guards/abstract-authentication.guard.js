@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var boot_1 = require("./../boot");
@@ -9,9 +10,9 @@ var AbstractAuthenticationGuard = (function () {
     }
     AbstractAuthenticationGuard.prototype.canActivate = function (route, state) {
         var _this = this;
-        return boot_1.activeContext.promise.then(function () {
+        return boot_1.carbonProvider.promise.then(function () {
             // AuthService needs to be injected here so we don't cause a premature initialization of AuthService
-            // If AuthService is injected in the constructor, the activeContext won't be ready and will cause an error
+            // If AuthService is injected in the constructor, the carbonProvider won't be ready and will cause an error
             return boot_1.inject(services_1.AuthService.Token);
         }).then(function (authService) {
             _this.authService = authService;
